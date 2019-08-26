@@ -5,6 +5,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+import Login from '../LoginComponent/Login';
+import SignUp from '../SignUpComponent/SignUp';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,7 +25,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function ButtonAppBar() {
   const classes = useStyles();
-
   return (
     <div className={classes.root}>
       <AppBar position='static'>
@@ -35,15 +38,20 @@ export default function ButtonAppBar() {
           <Typography variant='h6' className={classes.title}>
             PHOTOBOOTH
           </Typography>
-          <Button
-            aria-controls='customized-menu'
-            aria-haspopup='true'
-            variant='contained'
-            color='primary'
-            // onClick={handleClick}
-          >
-            SignIn/SignUp
-          </Button>
+          <PopupState variant='popover' popupId='demo-popup-menu'>
+            {popupState => (
+              <React.Fragment>
+                <Button variant='contained' {...bindTrigger(popupState)}>
+                  SignIn/SignUp
+                </Button>
+                <Menu {...bindMenu(popupState)}>
+                  {/* <MenuItem onClick={popupState.close}>SignIn</MenuItem> */}
+                  <Login />
+                  <SignUp />
+                </Menu>
+              </React.Fragment>
+            )}
+          </PopupState>
         </Toolbar>
       </AppBar>
     </div>
