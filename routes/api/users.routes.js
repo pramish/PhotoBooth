@@ -19,12 +19,12 @@ router.post("/register", async (req, res) => {
   //Validate users first
 
   try {
-    const { errors, isValid } = registerValidation(req.body);
+    // const { errors, isValid } = registerValidation(req.body);
 
     //If there is any errors while validating then send that errors to front end.
-    if (!isValid) {
-      return res.status(400).json(errors);
-    }
+    // if (!isValid) {
+    //   return res.status(400).json(errors);
+    // }
 
     //Checking up the user before registering to the database
     const user = await User.findOne({ email: req.body.email });
@@ -36,7 +36,7 @@ router.post("/register", async (req, res) => {
     const newUser = new User({
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password1
+      password: req.body.password
     });
 
     //Hashing the user password before saving to the database
@@ -61,10 +61,10 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   //Validating the user
   try {
-    const { errors, isValid } = registerValidation(req.body);
-    if (!isValid) {
-      return res.status(400).json(errors);
-    }
+    // const { errors, isValid } = registerValidation(req.body);
+    // if (!isValid) {
+    //   return res.status(400).json(errors);
+    // }
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ emailNotFound: "Email not registered" });
