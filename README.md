@@ -1,6 +1,8 @@
-# Colaborators
+To start the project please add the following:
 
-- Sharad Ghimire (Group Leader)
-- Rohit Gurung
-- Pramish Luitel
-- Benjamin Johnston (Subject Co-ordinator)
+-
+module.exports = {
+MONGOURI:
+your MONGOURI,
+secretOrKey: 'secret'
+};
