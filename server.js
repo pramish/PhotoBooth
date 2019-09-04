@@ -3,7 +3,7 @@ require('./config/db');
 const mongo = require('./config/keys').MONGOURI;
 const bodyParser = require('body-parser');
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 const userRouter = require('./routes/api/users.routes');
 const passport = require('passport');
 // require('./config/passport')(passport);

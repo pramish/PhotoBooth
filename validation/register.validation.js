@@ -27,7 +27,7 @@ module.exports = function validateRegisterInput(data) {
     errors.password = 'Password Field cannot be empty';
   }
 
-  if (validator.isLength(data.password, { min: 6, max: 16 })) {
+  if (!validator.isLength(data.password, { min: 6, max: 16 })) {
     errors.password = 'Passwords must be in the range of 6 to 16 characters';
   }
 

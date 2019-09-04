@@ -36,7 +36,7 @@ router.post('/register', async (req, res) => {
     const newUser = new User({
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password1
+      password: req.body.password
     });
 
     console.log(req.body.password);
@@ -63,7 +63,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   //Validating the user
   try {
-    const { errors, isValid } = registerValidation(req.body);
+    const { errors, isValid } = loginValidation(req.body);
     if (!isValid) {
       return res.status(400).json(errors);
     }
@@ -72,25 +72,26 @@ router.post('/login', async (req, res) => {
       return res.status(404).json({ emailNotFound: 'Email not registered' });
     }
     // IF the user is found and comparing the hashed password with it.
-    const isMatch = await bcrypt.compare(req.body.password, user.password);
+    // const isMatch = await bcrypt.compare(req.body.password, user.password);
 
     console.log(req.body.password);
-    if (isMatch) {
-      //Creating the JWT payload
-      const jwtPayload = {
-        id: user.id,
-        name: user.name
-      };
+    // if (isMatch) {
+    //Creating the JWT payload
+    const jwtPayload = {
+      id: user.id,
+      name: user.name
+    };
 
-      //Verify the token
-      jwt.sign(payload, keys.secret, {
-        expiresIn: 1800 //expires the jwt into half an hour
-      });
-    } else {
-      return res
-        .status(400)
-        .json({ passwordIncorrect: 'password does not match' });
-    }
+    //Verify the token
+    jwt.sign(payload, keys.secret, {
+      expiresIn: 1800 //expires the jwt into half an hour
+    });
+    // }
+    // else {
+    return res
+      .status(400)
+      .json({ passwordIncorrect: 'password does not match' });
+    // }
   } catch (error) {}
 });
 
