@@ -3,9 +3,10 @@ require('./config/db');
 const mongo = require('./config/keys').MONGOURI;
 const bodyParser = require('body-parser');
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;
 const userRouter = require('./routes/api/users.routes');
 const passport = require('passport');
+const cors = require('cors');
 // require('./config/passport')(passport);
 
 //Middleware Bodyparser
@@ -25,6 +26,7 @@ require('./config/passport')(passport);
 //Configure the passport
 
 //Routes for the users
+app.use(cors());
 app.use('/api/users', userRouter);
 
 app.listen(port, () => {
