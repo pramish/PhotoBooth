@@ -3,6 +3,9 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
+const upload = require('../../config/services/imageUpload');
+
+const singleUpload = upload.single('image'); // this will allow users to upload the image once at a time.
 
 //Load all the validation
 const registerValidation = require('../../validation/register.validation');
@@ -93,6 +96,16 @@ router.post('/login', async (req, res) => {
       .json({ passwordIncorrect: 'password does not match' });
     // }
   } catch (error) {}
+});
+
+//Uploading the image to Amazon s3
+
+router.post('/upload', (req, res) => {
+  singleUpload(req, res, err => {
+    res.json({
+      imageLocation: req.file.location //Using this image location to get the required image in front end
+    });
+  });
 });
 
 module.exports = router;
