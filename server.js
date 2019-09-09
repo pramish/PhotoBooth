@@ -7,9 +7,7 @@ const port = process.env.PORT || 5000;
 const userRouter = require('./routes/api/users.routes');
 const passport = require('passport');
 const cors = require('cors');
-// require('./config/passport')(passport);
 
-//Middleware Bodyparser
 app.use(
   bodyParser.urlencoded({
     extended: false
