@@ -5,13 +5,14 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const port = process.env.PORT || 5000;
 
-const app = express();
-app.use(cors());
-const userRouter = require("./routes/api/users.routes");
-const passport = require("passport");
-// require('./config/passport')(passport);
+const userRouter = require('./routes/api/users.routes');
+const passport = require('passport');
+const cors = require('cors');
 
-//Middleware Bodyparser
+
+const app = express();
+
+
 app.use(
   bodyParser.urlencoded({
     extended: false
@@ -28,7 +29,10 @@ require("./config/passport")(passport);
 //Configure the passport
 
 //Routes for the users
-app.use("/api/users", userRouter);
+
+app.use(cors());
+app.use('/api/users', userRouter);
+
 
 app.listen(port, () => {
   console.log(`Server is connected to port ${port}`);
