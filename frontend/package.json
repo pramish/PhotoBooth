@@ -5,6 +5,8 @@
   "dependencies": {
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-glide": "^3.2.0",
+    "react-icons": "^3.7.0",
     "react-paper-css": "^0.0.4",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.0.1",
