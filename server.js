@@ -2,9 +2,7 @@ const express = require("express");
 require("./config/db");
 const mongo = require("./config/keys").MONGOURI;
 const bodyParser = require("body-parser");
-const cors = require("cors");
 const port = process.env.PORT || 5000;
-
 const userRouter = require('./routes/api/users.routes');
 const passport = require('passport');
 const cors = require('cors');

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const MONGOURI = require('./keys').MONGOURI;
 mongoose
-  .connect(MONGOURI, { useNewUrlParser: true })
+  .connect(MONGOURI, { useNewUrlParser: true,useCreateIndex:true })
   .then(() => {
     console.log('Connected to MONGODB!!');
   })
