@@ -9,7 +9,6 @@ aws.config.update({
   accessKeyId: config.accessKeyId,
   region: config.region
 });
-
 //creating new instance of S3
 const s3 = new aws.S3();
 

@@ -1,12 +1,20 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const feedsSchema = new mongoose.Schema({
-    feed
-})
+  feedLocation: {
+    //AWS or Cloudinary image location
+    type: String,
+    required: true
+  },
+  feedReacType: {
+    // 5 Reactions.
+    type: String,
+    required: true
+  },
+  feedComments: { //Comments and Reaction must be in an array because this can be many to one relationship.
+    type: String,
+    required: true
+  }
+});
 
-
-
-
-// 1. react
-// 2. comments
-// 3. image
-// 
+const Feeds = mongoose.model('Feeds', feedsSchema);
+module.exports = Feeds;
