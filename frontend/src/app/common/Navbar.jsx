@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import defaultImg from "../../assets/default-round.png";
 import { MdHome, MdSearch, MdFormatListBulleted } from "react-icons/md";
 import SearchBar from "./SearchBar";
 
 const Navbar = ({ onClickHandler }) => {
+  const [searchClick, setSearchClick] = useState(false);
+  const toggleSearchBar = () => {
+    setSearchClick(!searchClick);
+  };
+
   return (
     <Container>
       <h4>Photobooth</h4>
       <div className="navbtns">
-        <MdHome color="white" />
-        <MdSearch color="white" />
-        <MdFormatListBulleted color="white" />
+        <MdHome color="white" size="2rem" />
+        <div className="searchbar">{searchClick ? <SearchBar /> : ""}</div>
+        <MdSearch color="white" size="2rem" onClick={toggleSearchBar} />
+        <MdFormatListBulleted color="white" size="2rem" />
       </div>
       <div>
         <img src={defaultImg} onClick={onClickHandler} />
@@ -33,7 +39,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 10%;
+    /* width: 10%; */
   }
   img {
     height: 2rem;
@@ -52,7 +58,14 @@ const Container = styled.div`
   }
   .navbtns {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-self: center;
+    svg {
+      margin-right: 1rem;
+      margin-left: 1rem;
+      cursor: pointer;
+    }
+  }
+  .searchbar {
   }
 `;
