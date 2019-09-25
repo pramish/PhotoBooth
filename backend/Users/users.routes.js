@@ -2,16 +2,13 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const keys = require('../../config/keys');
-const upload = require('../../config/services/imageUpload');
-
-const singleUpload = upload.single('image'); // this will allow users to upload the image once at a time.
+const keys = require('../config/keys');
 //Load all the validation
-const registerValidation = require('../../validation/register.validation');
-const loginValidation = require('../../validation/login.validation');
-
+const registerValidation = require('../validation/register.validation');
+const loginValidation = require('../validation/login.validation');
 //Load the User model
-const User = require('../../models/users.model');
+const User = require('../Users/users.model');
+
 //@routes POST api/users/register
 //@desc Register user
 //@access Public
@@ -48,9 +45,10 @@ router.post('/register', async (req, res) => {
     console.log(error);
   }
 });
+
 // @routes POST api/users/login
 // @desc Login user and return JWT token
-// @access public
+// @access Public
 router.post('/login', async (req, res) => {
   //Validating the user
   try {
@@ -58,14 +56,12 @@ router.post('/login', async (req, res) => {
     if (!isValid) {
       return res.status(400).json(errors);
     }
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: req.body.email });
     if (!user) {
       return res.status(404).json({ emailNotFound: 'Email not registered' });
     }
     // IF the user is found and comparing the hashed password with it.
     const isMatch = await bcrypt.compare(req.body.password, user.password);
-
-    console.log(req.body.password);
 
     if (isMatch) {
       //Creating the JWT payload
@@ -74,9 +70,15 @@ router.post('/login', async (req, res) => {
         name: user.name
       };
 
+      console.log(jwtPayload);
+
       //Verify the token
       jwt.sign(payload, keys.secret, {
         expiresIn: 1800 //expires the jwt into half an hour
+      });
+      res.json({
+        email: user.email,
+        name: user.name
       });
     } else {
       return res
@@ -90,18 +92,9 @@ router.post('/login', async (req, res) => {
   }
 });
 
-//Uploading the image to Amazon s3 and this has to go to the feeds router.
-router.post('/upload', (req, res) => {
-  singleUpload(req, res, err => {
-    res.json({
-      imageLocation: req.file.location //Using this image location to get the required image in front end
-    });
-  });
-});
-
 //@routes POST api/users/deleteUsers
 //@desc Delete one user by email
-//@access Public
+//@access Private
 router.post('/deleteuser', async (req, res) => {
   try {
     const result = await User.findOneAndDelete({ email: req.body.email });
@@ -117,8 +110,7 @@ router.post('/deleteuser', async (req, res) => {
 });
 //@routes POST api/users/updateUser
 //@desc Update one user by email
-//@access Public
-
+//@access Private
 router.patch('/updateuser', async (req, res) => {
   const toUpdate = Object.keys(req.body);
   const allowedUpdate = ['name', 'email', 'password'];
@@ -144,6 +136,28 @@ router.patch('/updateuser', async (req, res) => {
     res.json({ success: 'User has been successfully updated' });
   } catch (error) {
     res.status(500).send(error);
+  }
+});
+
+//@routes GET api/users/readuser
+//@desc Read the user based on provided email
+//@access Private
+
+router.get('/getuser', async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return res.status(404).json({
+        error: 'User not found'
+      });
+    }
+    res.status(200).json({
+      user
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: 'Server is down'
+    });
   }
 });
 

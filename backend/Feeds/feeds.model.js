@@ -5,14 +5,19 @@ const feedsSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  feedReacType: {
+  feedReactType: {
     // 5 Reactions.
     type: String,
     required: true
   },
-  feedComments: { //Comments and Reaction must be in an array because this can be many to one relationship.
+  feedComments: {
+    //Comments and Reaction must be in an array because this can be many to one relationship.
     type: String,
     required: true
+  },
+  post_date: {
+    type: Date,
+    default: Date.now
   }
 });
 
