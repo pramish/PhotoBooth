@@ -1,66 +1,95 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { FaComment } from "react-icons/fa";
 
 import meme from "../../assets/meme.jpg";
-import girl from "../../assets/default-girl.png";
+import boy from "../../assets/default-round.png";
 
 const EachFeed = () => {
+  const [toggleDetails, setToggleDetails] = useState(false);
+
+  const showDetails = () => {
+    setToggleDetails(true);
+  };
+  const hideDetails = () => {
+    setToggleDetails(false);
+  };
+
   return (
-    <Container>
-      <div className="topAvatarConatiner">
-        <img className="avatar" src={girl} alt="girl" />
-        <span>Funny</span>
-        <span> &bull;</span>
-        <span>2h</span>
-      </div>
-      <h4 className="title">Typical India</h4>
-      <div className="imgContainer">
+    <Container
+      onMouseEnter={showDetails}
+      onMouseLeave={hideDetails}
+      toggle={toggleDetails}
+    >
+      <div className="img-wrapper">
         <img src={meme} />
       </div>
-      <div>
-        <span>200 reactions</span>
-        <span> &bull;</span>
-        <span>47 comments</span>
-      </div>
-      <div>
-        <button>Emoji</button>
-        <button>
-          <FaComment />
-        </button>
+      <div className="overlay">
+        <DetailsView image={boy} />
       </div>
     </Container>
   );
 };
 
+const DetailsView = ({ image }) => (
+  <DetailsViewContainer>
+    <h3>Let's go Stake!! </h3>
+    <div className="author">
+      <img
+        src={image}
+        style={{
+          height: "2rem",
+          width: "2rem"
+        }}
+      />
+      <p>IoanMack</p>
+    </div>
+  </DetailsViewContainer>
+);
+
 export default EachFeed;
 
-const Container = styled.div`
-  margin-top: 1rem;
+const DetailsViewContainer = styled.div`
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
   flex-direction: column;
-  div.topAvatarConatiner {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+  align-items: flex-start;
+  justify-content: flex-end;
+  margin-left: 1rem;
+  .blur {
+    opacity: 0.2;
   }
-
-  h4 {
+  h3 {
     margin: 0;
   }
-
-  img.avatar {
-    height: 2.5rem;
-    width: 2.5rem;
+  .author {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: center;
+    p {
+      margin-left: 0.7rem;
+    }
   }
+`;
 
-  div.imgContainer {
+const Container = styled.div`
+  cursor: pointer;
+  display: grid;
+  .img-wrapper,
+  .overlay {
+    grid-area: 1 / 1;
+    display: flex;
+  }
+  .img-wrapper {
+    height: 20rem;
+    /* width: 20%; */
+
     img {
-      background-size: cover;
-      background-position: center;
+      ${props => (props.toggle ? "opacity: 0.5" : "")}
+      height: auto;
+      max-height: 100%;
+      width: 100%;
+      object-fit: cover;
+      height: 20rem;
     }
   }
 `;
