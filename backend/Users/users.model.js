@@ -30,6 +30,4 @@ userSchema.pre('save',()=>{
       });
   }
 })
-
-
 module.exports = User = mongoose.model('User', userSchema);
