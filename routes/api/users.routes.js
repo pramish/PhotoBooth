@@ -3,15 +3,14 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
-const upload = require('../../config/services/imageUpload');
-
-const singleUpload = upload.single('image'); // this will allow users to upload the image once at a time.
+// const upload = require('../../config/services/imageUpload');
+// const singleUpload = upload.single('image'); // this will allow users to upload the image once at a time.
 //Load all the validation
 const registerValidation = require('../../validation/register.validation');
 const loginValidation = require('../../validation/login.validation');
-
 //Load the User model
 const User = require('../../models/users.model');
+
 //@routes POST api/users/register
 //@desc Register user
 //@access Public
@@ -48,9 +47,10 @@ router.post('/register', async (req, res) => {
     console.log(error);
   }
 });
+
 // @routes POST api/users/login
 // @desc Login user and return JWT token
-// @access public
+// @access Public
 router.post('/login', async (req, res) => {
   //Validating the user
   try {
@@ -90,18 +90,9 @@ router.post('/login', async (req, res) => {
   }
 });
 
-//Uploading the image to Amazon s3 and this has to go to the feeds router.
-router.post('/upload', (req, res) => {
-  singleUpload(req, res, err => {
-    res.json({
-      imageLocation: req.file.location //Using this image location to get the required image in front end
-    });
-  });
-});
-
 //@routes POST api/users/deleteUsers
 //@desc Delete one user by email
-//@access Public
+//@access Private
 router.post('/deleteuser', async (req, res) => {
   try {
     const result = await User.findOneAndDelete({ email: req.body.email });
@@ -117,8 +108,7 @@ router.post('/deleteuser', async (req, res) => {
 });
 //@routes POST api/users/updateUser
 //@desc Update one user by email
-//@access Public
-
+//@access Private
 router.patch('/updateuser', async (req, res) => {
   const toUpdate = Object.keys(req.body);
   const allowedUpdate = ['name', 'email', 'password'];
