@@ -1,14 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import defaultImg from "../../assets/default-round.png";
+import { MdHome, MdSearch, MdFormatListBulleted } from "react-icons/md";
 import SearchBar from "./SearchBar";
 
 const Navbar = ({ onClickHandler }) => {
   return (
     <Container>
       <h4>Photobooth</h4>
+      <div className="navbtns">
+        <MdHome color="white" />
+        <MdSearch color="white" />
+        <MdFormatListBulleted color="white" />
+      </div>
       <div>
-        <button>Create</button>
         <img src={defaultImg} onClick={onClickHandler} />
       </div>
     </Container>
@@ -23,22 +28,31 @@ const Container = styled.div`
   align-items: center;
   flex-direction: row;
   margin: 1rem;
+
   div:nth-child(2) {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 15%;
+    width: 10%;
   }
   img {
-    /* border: none !important; */
-    height: 2.5rem;
-    width: 2.5rem;
+    height: 2rem;
+    width: 2rem;
   }
   h4 {
     margin: 0;
+    font-size: 1.4rem;
+    text-decoration: none;
+    font-style: normal;
+    color: white;
   }
   button {
     background-color: #177e89;
     color: #fff;
+  }
+  .navbtns {
+    display: flex;
+    justify-content: center;
+    align-self: center;
   }
 `;
