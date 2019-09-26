@@ -15,8 +15,10 @@ const Navbar = ({ onClickHandler }) => {
       <h4>Photobooth</h4>
       <div className="navbtns">
         <MdHome color="white" size="2rem" />
-        <div className="searchbar">{searchClick ? <SearchBar /> : ""}</div>
-        <MdSearch color="white" size="2rem" onClick={toggleSearchBar} />
+        {/* <div className="searchbar">{searchClick ? <SearchBar /> : ""}</div>
+        <MdSearch color="white" size="2rem" onClick={toggleSearchBar} /> */}
+        <SearchBar />
+
         <MdFormatListBulleted color="white" size="2rem" />
       </div>
       <div>

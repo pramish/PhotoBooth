@@ -1,9 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { IoIosSearch } from "react-icons/io";
+import { MdSearch } from "react-icons/md";
 
 const SearchBar = () => (
   <Container>
+    <MdSearch
+      size="1.2rem"
+      style={{ position: "absolute", color: "black", top: "27px" }}
+    />
     <input placeholder="Search" />
   </Container>
 );
@@ -20,5 +24,8 @@ const Container = styled.div`
     border-radius: 0.4rem;
     height: 1.3rem;
     padding-left: 1rem;
+  }
+  svg {
+    fill: black;
   }
 `;
