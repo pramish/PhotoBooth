@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const feedsSchema = mongoose.Schema(
   {
-    imageLocation: {
-      //Cloudinary image location
-      type: Object,
+    image: {
+      type: JSON,
       required: true
     },
-    userEmail: {
-      type: String,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true
     },
     category: {
@@ -15,15 +15,23 @@ const feedsSchema = mongoose.Schema(
       required: true
     },
     views: {
-      type: String
+      type: Number,
+      default: 0
     },
     emoji: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Emoji'
+      ref: "Emoji"
     },
-    comments: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Feed'
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Feed" 
+      }
+    ],
+    initial: {
+      type: Boolean,
+      default: false,
+      require: true
     }
     // emoji :- Naya model banaune ra tyeslai object id bata reference garne done
     // timestamps done
@@ -35,4 +43,4 @@ const feedsSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = Feed = mongoose.model('Feed', feedsSchema);
+module.exports = Feed = mongoose.model("Feed", feedsSchema);

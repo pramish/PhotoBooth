@@ -1,14 +1,22 @@
-const express = require('express');
-require('./config/db');
-// const mongo = require('./config/keys').MONGOURI;
-const bodyParser = require('body-parser');
-const port = process.env.PORT || 5000;
-const userRouter = require('./routes/api/users/users.routes');
-const feedRouter = require('./routes/api/feeds/feeds.router');
-const passport = require('passport');
-const cors = require('cors');
-require('./config/passport')(passport);
+const express = require("express");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const cors = require("cors");
+
+require("dotenv").config();
+
+const connect = require("./config/db");
+const router = require("./routes");
+
+require("./services/cloudinary");
+require("./config/passport")(passport);
+
 const app = express();
+// Connects to MongoDB
+connect();
+
+app.use(cors());
+
 app.use(
   bodyParser.urlencoded({
     extended: false
@@ -16,15 +24,14 @@ app.use(
 );
 app.use(bodyParser.json());
 
-//using the passport middleware
 app.use(passport.initialize());
 
-//Configure the passport
-//Routes for the users
-app.use(cors());
-app.use('/api/users', userRouter);
-app.use('/api/feeds', feedRouter);
+app.use("/", router);
 
-app.listen(port, () => {
-  console.log(`Server is connected to port ${port}`);
+// Assume 404 since no routes and middlewares responded
+app.use((req, res, next) => {
+  console.log("error (404)");
+  res.json({ Error: 404 });
 });
+
+module.exports = app;
