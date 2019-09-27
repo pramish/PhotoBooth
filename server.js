@@ -1,4 +1,8 @@
 const express = require("express");
+const helmet = require('helmet')
+
+app.use(helmet())
+
 require("./config/db");
 const mongo = require("./config/keys").MONGOURI;
 const bodyParser = require("body-parser");

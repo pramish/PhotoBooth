@@ -8,25 +8,13 @@ import {
   MdTrendingUp,
   MdAdd
 } from "react-icons/md";
-import {
-  Fab,
-  Fade,
-  Modal,
-  Backdrop,
-  Card,
-  CardActions,
-  CardContent,
-  Button,
-  makeStyles
-} from "@material-ui/core";
-import AddImageForm from "./components/AddImageForm";
 import { DiCodeigniter } from "react-icons/di";
-import ReactSVG from "react-svg";
+
+import { Fab, Fade, Modal, Backdrop, makeStyles } from "@material-ui/core";
 
 import defaultImg from "../../assets/default-girl.png";
-import trending from "../../assets/trending.svg";
 
-import Navbar from "../common/Navbar";
+import AddImageForm from "./components/AddImageForm";
 import EachFeed from "./EachFeed";
 import Categories from "./components/Categories";
 
@@ -63,7 +51,6 @@ const Home = () => {
           <img src={defaultImg} />
         </div>
       </div>
-
       <div className="side-categories">
         <div className="top-trendings">
           <div className="trendings">
@@ -152,6 +139,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 15% 35% 40% 10%;
   grid-auto-rows: minmax(10px, auto);
+  color: white;
   grid-template-areas:
     "title navbtns navbtns profile"
     "side-categories main-feeds main-feeds side-artist";
