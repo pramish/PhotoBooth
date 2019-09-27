@@ -8,7 +8,10 @@
     "start": "node index.js",
     "server": "nodemon index.js",
     "client": "npm start --prefix frontend",
-    "dev": "concurrently \"npm run frontend \" \"npm run server\""
+    "dev": "concurrently \"npm run frontend \" \"npm run server\"",
+    "test:unit": "./node_modules/.bin/mocha test/unit/**/*.js --timeout 10000 --exit",
+    "test:functional": "./node_modules/.bin/nightwatch",
+    "test": "npm run test:unit && npm run test:functional"
   },
   "keywords": [],
   "author": "",
@@ -49,7 +52,9 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "chai": "^4.2.0",
+    "chromedriver": "^77.0.0",
     "mocha": "^6.2.0",
+    "nightwatch": "^1.2.4",
     "nodemon": "^1.19.2"
   }
 }
