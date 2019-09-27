@@ -13,14 +13,7 @@ const Navbar = ({ onClickHandler }) => {
   return (
     <Container>
       <h4>Photobooth</h4>
-      <div className="navbtns">
-        <MdHome color="white" size="2rem" />
-        {/* <div className="searchbar">{searchClick ? <SearchBar /> : ""}</div>
-        <MdSearch color="white" size="2rem" onClick={toggleSearchBar} /> */}
-        <SearchBar />
-
-        <MdFormatListBulleted color="white" size="2rem" />
-      </div>
+      
       <div>
         <img src={defaultImg} onClick={onClickHandler} />
       </div>
