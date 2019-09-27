@@ -1,10 +1,10 @@
 const express = require('express');
 require('./config/db');
-const mongo = require('./config/keys').MONGOURI;
+// const mongo = require('./config/keys').MONGOURI;
 const bodyParser = require('body-parser');
 const port = process.env.PORT || 5000;
-const userRouter = require('./Users/users.routes');
-const feedRouter = require('./Feeds/feeds.router');
+const userRouter = require('./routes/api/users/users.routes');
+const feedRouter = require('./routes/api/feeds/feeds.router');
 const passport = require('passport');
 const cors = require('cors');
 require('./config/passport')(passport);
