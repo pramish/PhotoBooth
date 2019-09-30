@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import { Card, CardContent, CardActions, Button } from "@material-ui/core";
+import {
+  Card,
+  Button,
+  FormControl,
+  InputLabel,
+  Input,
+  Fab
+} from "@material-ui/core";
+import { PlayForWork, CloudUpload, Replay } from "@material-ui/icons";
+
+import styled from "styled-components";
 
 const AddImageForm = () => {
   const [image, setImage] = useState(null);
@@ -22,21 +32,55 @@ const AddImageForm = () => {
     };
     reader.readAsDataURL(file);
   };
+  const chooseBtnClickHandler = () => {
+    document.getElementById("btnClickForImageUpload").click();
+  };
 
   return (
-    <Card style={{ color: "black", padding: "10rem" }}>
-      <form>
-        {imageUrl ? (
-          <img style={{ height: "4rem", width: "auto" }} src={imageUrl} />
-        ) : (
-          <div className="previewText">Please select an Image for Preview</div>
-        )}
-        <input type="file" name="image" onChange={fileChangedHandler} />
+    <Card style={{ color: "black", padding: "3rem" }}>
+      <Wrapper>
+        <form>
+          {imageUrl ? (
+            <img style={{ height: "16rem", width: "auto" }} src={imageUrl} />
+          ) : (
+            ""
+          )}
+          <br />
+          <input
+            style={{ display: "none" }}
+            type="file"
+            name="image"
+            id="btnClickForImageUpload"
+            onChange={fileChangedHandler}
+          />
+          <Fab variant="extended" onClick={chooseBtnClickHandler}>
+            {image ? <Replay /> : <PlayForWork />}
+            {image ? "Change Image" : "Choose a image"}
+          </Fab>
 
-        <Button onClick={postHandler}>Create a Feed</Button>
-      </form>
+          <FormControl>
+            <InputLabel htmlFor="title">Title</InputLabel>
+            <Input id="title" aria-describedby="title" />
+          </FormControl>
+          <Button color="secondary" onClick={postHandler}>
+            Create a Feed
+          </Button>
+        </form>
+      </Wrapper>
     </Card>
   );
 };
 
 export default AddImageForm;
+
+const Wrapper = styled.div`
+  form {
+    display: flex;
+
+    flex-direction: column;
+    .MuiSvgIcon-root {
+      margin-left: 0.5rem !important;
+      margin-right: 0.5rem !important;
+    }
+  }
+`;

@@ -1,13 +1,15 @@
 import meme from "../assets/meme.jpg";
+import design from "../assets/categories/design.jpg";
+import art from "../assets/categories/art.jpg";
 
 export default [
   {
     name: "Design",
-    img: meme
+    img: design
   },
   {
     name: "Art",
-    img: meme
+    img: art
   },
   {
     name: "Travel",
