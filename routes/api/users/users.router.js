@@ -56,12 +56,14 @@ router.post("/login", async (req, res) => {
     if (!isValid) {
       return res.status(400).json(errors);
     }
+
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
       return res.status(404).json({ emailNotFound: "Email not registered" });
     }
     // IF the user is found and comparing the hashed password with it.
     const isMatch = await bcrypt.compare(req.body.password, user.password);
+    console.log(isMatch);
 
     if (isMatch) {
       //Creating the JWT payload
@@ -72,22 +74,18 @@ router.post("/login", async (req, res) => {
 
       console.log(jwtPayload);
 
-      //Verify the token
-      jwt.sign(payload, keys.secret, {
+      // Verify the token
+      var token = jwt.sign(jwtPayload, keys.secretOrKey, {
         expiresIn: 1800 //expires the jwt into half an hour
       });
-      res.json({
-        email: user.email,
-        name: user.name
-      });
+
+      res.json({"token": token});
     } else {
-      return res
-        .status(400)
-        .json({ passwordIncorrect: "password does not match" });
+      res.status(400).json({ passwordIncorrect: "password does not match" });
     }
   } catch (error) {
-    res.json({
-      error: error
+    res.status(400).json({
+      "error":error
     });
   }
 });
