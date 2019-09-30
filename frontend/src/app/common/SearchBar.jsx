@@ -1,23 +1,31 @@
 import React from "react";
 import styled from "styled-components";
-import { IoIosSearch } from "react-icons/io";
+import { MdSearch } from "react-icons/md";
 
 const SearchBar = () => (
   <Container>
+    <MdSearch
+      size="1.2rem"
+      style={{ position: "absolute", color: "black", top: "27px" }}
+    />
     <input placeholder="Search" />
-    <IoIosSearch size={`1.8em`} style={{ cursor: "pointer" }} />
   </Container>
 );
 export default SearchBar;
 
 const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   input {
-    width: 51%;
+    color: black;
+    margin-top: 0.4rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
     border: none;
-    border-bottom: 1px solid #41403e;
-    border-bottom-left-radius: 0 0;
+    border-bottom: 0px solid #41403e;
+    border-radius: 0.4rem;
+    height: 1.3rem;
+    padding-left: 1rem;
+  }
+  svg {
+    fill: black;
   }
 `;
