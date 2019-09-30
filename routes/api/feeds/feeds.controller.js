@@ -23,7 +23,6 @@ const uploadImage = async (req, res, next) => {
   }
 };
 
-
 // router.delete("/deleteimage", async (req, res) => {
 //   const feed = await Feed.findByIdAndDelete(req.params.id);
 //   if (!feed) {
