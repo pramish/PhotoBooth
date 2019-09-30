@@ -8,6 +8,8 @@ router
   .post(feedController.uploadImage, feedController.createFeed)
   .delete();
 
+router.post("/imageUpload", feedController.uploadAndReturn);
+
 router
   .route("/:imageId")
   .get(feedController.getOneFeed)

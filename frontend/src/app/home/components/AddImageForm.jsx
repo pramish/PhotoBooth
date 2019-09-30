@@ -1,59 +1,39 @@
 import React, { useState } from "react";
+import Axios from "axios";
 import { Card, CardContent, CardActions, Button } from "@material-ui/core";
-import ImageUploader from "react-images-upload";
 
 const AddImageForm = () => {
-  const [image, setImage] = useState("");
-  const [email, setEmail] = useState("");
-  const [category, setCategory] = useState("Fiction");
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
 
-  const onDrop = image => {
-    setImage(image);
+  const postHandler = async () => {
+    let formData = new FormData();
+    formData.append("myImg", image);
+    let res = await Axios.post("http://localhost:5000/feeds", formData);
+    console.log(res);
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    console.log({
-      image,
-      email,
-      category
-    });
-  };
-  const handleChange = e => {
-    switch (e.target.name) {
-      case "image":
-        setImage(e.target.value);
-        break;
-      case "email":
-        setEmail(e.target.value);
-        break;
-      default:
-        break;
-    }
+  const fileChangedHandler = e => {
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      setImage(file);
+      setImageUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
-    <Card style={{ color: "black" }}>
-      <form onSubmit={handleSubmit}>
-        <ImageUploader
-          withIcon={true}
-          buttonText="Choose a image"
-          onChange={onDrop}
-          imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-          maxFileSize={5242880}
-          singleImage={true}
-        />
-        <input
-          type="text"
-          onChange={handleChange}
-          placeholder="Email"
-          name="email"
-          value={email}
-        />
-        <label>Email</label> <br />
-        <Button type="submit" primary>
-          Create{" "}
-        </Button>
+    <Card style={{ color: "black", padding: "10rem" }}>
+      <form>
+        {imageUrl ? (
+          <img style={{ height: "4rem", width: "auto" }} src={imageUrl} />
+        ) : (
+          <div className="previewText">Please select an Image for Preview</div>
+        )}
+        <input type="file" name="image" onChange={fileChangedHandler} />
+
+        <Button onClick={postHandler}>Create a Feed</Button>
       </form>
     </Card>
   );

@@ -15,13 +15,15 @@ const deleteFeed = deleteOne(Feed);
 
 const uploadImage = async (req, res, next) => {
   try {
-    // let image = await cloudinary.uploader.upload(req.file.path);
-    // req.body.image = image;
+    let img = req.files.myImg;
+    let response = await cloudinary.uploader.upload(img.tempFilePath);
+    req.body.image = response.url;
     next();
   } catch (error) {
     next(error);
   }
 };
+const uploadAndReturn = async (req, res, next) => {};
 
 // router.delete("/deleteimage", async (req, res) => {
 //   const feed = await Feed.findByIdAndDelete(req.params.id);
@@ -40,5 +42,6 @@ module.exports = {
   getOneFeed,
   createFeed,
   deleteFeed,
-  uploadImage
+  uploadImage,
+  uploadAndReturn
 };

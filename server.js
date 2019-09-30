@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const cors = require("cors");
+const fileupload = require("express-fileupload");
 
 require("dotenv").config();
 
@@ -22,6 +23,14 @@ app.use(
     extended: false
   })
 );
+
+app.use(
+  fileupload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/"
+  })
+);
+
 app.use(bodyParser.json());
 
 app.use(passport.initialize());
