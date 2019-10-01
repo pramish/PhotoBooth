@@ -1,62 +1,86 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardActions, Button } from "@material-ui/core";
-import ImageUploader from "react-images-upload";
+import Axios from "axios";
+import {
+  Card,
+  Button,
+  FormControl,
+  InputLabel,
+  Input,
+  Fab
+} from "@material-ui/core";
+import { PlayForWork, CloudUpload, Replay } from "@material-ui/icons";
+
+import styled from "styled-components";
 
 const AddImageForm = () => {
-  const [image, setImage] = useState("");
-  const [email, setEmail] = useState("");
-  const [category, setCategory] = useState("Fiction");
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
 
-  const onDrop = image => {
-    setImage(image);
+  const postHandler = async () => {
+    let formData = new FormData();
+    formData.append("myImg", image);
+    let res = await Axios.post("http://localhost:5000/feeds", formData);
+    console.log(res);
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    console.log({
-      image,
-      email,
-      category
-    });
+  const fileChangedHandler = e => {
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      setImage(file);
+      setImageUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
-  const handleChange = e => {
-    switch (e.target.name) {
-      case "image":
-        setImage(e.target.value);
-        break;
-      case "email":
-        setEmail(e.target.value);
-        break;
-      default:
-        break;
-    }
+  const chooseBtnClickHandler = () => {
+    document.getElementById("btnClickForImageUpload").click();
   };
 
   return (
-    <Card style={{ color: "black" }}>
-      <form onSubmit={handleSubmit}>
-        <ImageUploader
-          withIcon={true}
-          buttonText="Choose a image"
-          onChange={onDrop}
-          imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-          maxFileSize={5242880}
-          singleImage={true}
-        />
-        <input
-          type="text"
-          onChange={handleChange}
-          placeholder="Email"
-          name="email"
-          value={email}
-        />
-        <label>Email</label> <br />
-        <Button type="submit" primary>
-          Create{" "}
-        </Button>
-      </form>
+    <Card style={{ color: "black", padding: "3rem" }}>
+      <Wrapper>
+        <form>
+          {imageUrl ? (
+            <img style={{ height: "16rem", width: "auto" }} src={imageUrl} />
+          ) : (
+            ""
+          )}
+          <br />
+          <input
+            style={{ display: "none" }}
+            type="file"
+            name="image"
+            id="btnClickForImageUpload"
+            onChange={fileChangedHandler}
+          />
+          <Fab variant="extended" onClick={chooseBtnClickHandler}>
+            {image ? <Replay /> : <PlayForWork />}
+            {image ? "Change Image" : "Choose a image"}
+          </Fab>
+
+          <FormControl>
+            <InputLabel htmlFor="title">Title</InputLabel>
+            <Input id="title" aria-describedby="title" />
+          </FormControl>
+          <Button color="secondary" onClick={postHandler}>
+            Create a Feed
+          </Button>
+        </form>
+      </Wrapper>
     </Card>
   );
 };
 
 export default AddImageForm;
+
+const Wrapper = styled.div`
+  form {
+    display: flex;
+
+    flex-direction: column;
+    .MuiSvgIcon-root {
+      margin-left: 0.5rem !important;
+      margin-right: 0.5rem !important;
+    }
+  }
+`;
