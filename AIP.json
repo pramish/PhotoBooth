@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "aip-photobooth-1569987014360",
+  "private_key_id": "7b5e2dc6b97177aa790a59df6506181460e5b62a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC+J5vLOKJ/hVO/\n8obl/ekkpuIbkm8PbV8ZpDZI50g1exzHsHiMt4SzZdxX/59rFNRNgVLY2WtClpUN\nXydSs2tU50n8FaV9yaeWr9IMgO2x8d1SDFMSakg0HZyhkb0Y9OFjt2oyfGQhp1TA\nuQGhxhqHl31Nyr8513Tap71NXEPHeDEQA0aIAAgF2cqWqiush+dbu4/cPGpB3vYv\niOpYVLx1fcd9aaWSDOagRT2hfhT7OiO6tqisQhX6SbGkLO1wCW+fFeNLsRV4Agoj\n2SgrfXNNEZPO8iinQuj48V/zvgB5TD3cCh98+l3VaYPF2lfJNjFJuJCJMr/DVPeP\ndVu/M26ZAgMBAAECgf98OuRNoHKJXVGZ1ZjMKVZn259c5A4qxgmbdu0ANBm41vW2\ngFRBmqPXkHSkCRzdmH4bJKI7ic/JcRdv5PqLzSwSDAkJ6Bp2U4hpqfRQtuqTlrBB\nKkwbe9QwOChcZhpkc5fMzcdTtHC2i9uTDUtDpWkvrIjwicTkxR5Su8OxBtZBOeR2\nLt5DwNqfQ7TU2r8PqRIfSccpArovD+RuFjCELr9rMRA2jrnd7H7qD+iCrnPatHdL\n0laKKDPBAD6gg3BKPSO5fw1H0ugvN6x8rvGFiSUTsMvfiCCIlOwrM9EpBGMWhxPu\nYOVLooZX33rjp6xYLkJ2a4+s/hjHp0Pv9WOa9AECgYEA4b+icoYV3vCOcqVKNUHc\n/Lhq0+3j159iZ0aU8keqnkqGbgW0X9Ep84t8oAZBjqRJ5IfCdFeZsCM9q1x0x1oA\nJYiC/CA/Crk3+K5YaTgSDmbeUX31XgsVxAyWK41Yz5aqa70M59SiKtTjVuqGUbJ+\nBCcZpBbmcSERXL+zVpLB6JkCgYEA16Lq2K3tCkc91IscfsXiM0si97SBTpsn36nY\nnftuZrfgzMtTZ4sVq8V7+PN+ZiQvqTG/kw9nW6T9fFORyECfZnYH9OeFpz2kZtyo\nRC+HdMxuYfrE7C8uXAaRkHLk7WBGfmGjjqNSvAcvlOv1aTLglDv736v/W5wkKEHU\np1LzdgECgYEAm66YzPoDYzfqRM4QmyHM0Mwtf/HyyuSz7B0U4vDhjUA/7OgqOFn6\n4GY1j/ZAh6ps+xlU1P8Ekh/7i427Sy+aIkg+bLmgQDjzjKBPgGCWsy/l6bU/3Zcv\nb4Bun6JeuOpipOI/YDGXlIo0LeCWuQirNxnv6OWSDjqLyra5at7SsyECgYEAsHPE\nMOLB4XNCiTX8b1CGNOr7Bi9S0HvuOPvHIh+oy60T6wFGkqghZ5oGREUb3YEm7xCi\nbzhfn4J3WtEXrgITbciP4jvCBoROj01o88Lg2RagDNUjZxGEohFN9CHQat4pUSmc\nqQ/El9BZg0dCXn8ffq1HAlTAdLpka/zSgslCKAECgYB9Ag6dIYsmHdJZW6a/yefc\nt/VmwZpJDIOtVJvSWl+gv4eAUzehr2BeyO2YV2Oq4IO1IjofFiSypGI6l7aEjDSl\n04bfGEJTA2n0bZms+vvUzlNyW64uL7t/iQHDsIp/nmvll0/0kkAHx2DNlYooSdYW\nqU2L5L3+9zIz7PBeAECrNg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "starting-account-ys5q8z4ea0cm@aip-photobooth-1569987014360.iam.gserviceaccount.com",
+  "client_id": "104559761088930277791",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/starting-account-ys5q8z4ea0cm%40aip-photobooth-1569987014360.iam.gserviceaccount.com"
+}

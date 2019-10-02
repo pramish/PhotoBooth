@@ -1,17 +1,21 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const feedController = require("./feeds.controller");
+const feedController = require('./feeds.controller');
 
 router
-  .route("/")
+  .route('/')
   .get(feedController.getAllFeeds)
-  .post(feedController.uploadImage, feedController.createFeed)
+  .post(
+    feedController.detectImage,
+    feedController.uploadImage,
+    feedController.createFeed
+  )
   .delete();
 
-router.post("/imageUpload", feedController.uploadAndReturn);
+router.post('/imageUpload', feedController.uploadAndReturn);
 
 router
-  .route("/:imageId")
+  .route('/:imageId')
   .get(feedController.getOneFeed)
   .delete(feedController.deleteFeed);
 

@@ -7,12 +7,12 @@ const feedsSchema = mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true
+      ref: "User"
+      // required: true
     },
     category: {
-      type: String,
-      required: true
+      type: String
+      // required: true
     },
     views: {
       type: Number,

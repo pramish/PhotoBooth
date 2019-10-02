@@ -1,18 +1,18 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const keys = require("../../../config/keys");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+// const keys = require('../../../config/keys');
 //Load all the validation
-const registerValidation = require("../../../utils/validation/register.validation");
-const loginValidation = require("../../../utils/validation/login.validation");
+const registerValidation = require('../../../utils/validation/register.validation');
+const loginValidation = require('../../../utils/validation/login.validation');
 //Load the User model
-const User = require("./users.model");
+const User = require('./users.model');
 
 //@routes POST api/users/register
 //@desc Register user
 //@access Public
-router.post("/register", async (req, res) => {
+router.post('/register', async (req, res) => {
   //Validate users first
   try {
     const { errors, isValid } = registerValidation(req.body);
@@ -23,7 +23,7 @@ router.post("/register", async (req, res) => {
     //Checking up the user before registering to the database
     const user = await User.findOne({ email: req.body.email });
     if (user) {
-      return res.status(400).json({ email: "User is already registered!!" });
+      return res.status(400).json({ email: 'User is already registered!!' });
     }
     //Getting all the users credentials
     const newUser = new User({
@@ -49,7 +49,7 @@ router.post("/register", async (req, res) => {
 // @routes POST api/users/login
 // @desc Login user and return JWT token
 // @access Public
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
   //Validating the user
   try {
     const { errors, isValid } = loginValidation(req.body);
@@ -59,7 +59,7 @@ router.post("/login", async (req, res) => {
 
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      return res.status(404).json({ emailNotFound: "Email not registered" });
+      return res.status(404).json({ emailNotFound: 'Email not registered' });
     }
     // IF the user is found and comparing the hashed password with it.
     const isMatch = await bcrypt.compare(req.body.password, user.password);
@@ -75,17 +75,17 @@ router.post("/login", async (req, res) => {
       console.log(jwtPayload);
 
       // Verify the token
-      var token = jwt.sign(jwtPayload, keys.secretOrKey, {
+      var token = jwt.sign(jwtPayload, 'secretOrKey', {
         expiresIn: 1800 //expires the jwt into half an hour
       });
 
-      res.json({"token": token});
+      res.json({ token: token });
     } else {
-      res.status(400).json({ passwordIncorrect: "password does not match" });
+      res.status(400).json({ passwordIncorrect: 'password does not match' });
     }
   } catch (error) {
     res.status(400).json({
-      "error":error
+      error: error
     });
   }
 });
@@ -93,14 +93,14 @@ router.post("/login", async (req, res) => {
 //@routes POST api/users/deleteUsers
 //@desc Delete one user by email
 //@access Private
-router.post("/deleteuser", async (req, res) => {
+router.post('/deleteuser', async (req, res) => {
   try {
     const result = await User.findOneAndDelete({ email: req.body.email });
     if (result) {
-      return res.status(200).json({ success: "User deleted" });
+      return res.status(200).json({ success: 'User deleted' });
     }
     if (!result) {
-      return res.status(200).json({ error: "User not found" });
+      return res.status(200).json({ error: 'User not found' });
     }
   } catch (error) {
     return res.status(500).json({ error: error });
@@ -109,9 +109,9 @@ router.post("/deleteuser", async (req, res) => {
 //@routes POST api/users/updateUser
 //@desc Update one user by email
 //@access Private
-router.patch("/updateuser", async (req, res) => {
+router.patch('/updateuser', async (req, res) => {
   const toUpdate = Object.keys(req.body);
-  const allowedUpdate = ["name", "email", "password"];
+  const allowedUpdate = ['name', 'email', 'password'];
   const isValidOperation = toUpdate.every(update => {
     //This will determine the each value to be updated
     allowedUpdate.includes(update);
@@ -124,14 +124,14 @@ router.patch("/updateuser", async (req, res) => {
     }
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      return res.status(400).json({ error: "No such user found!" }); // throw error when the user is not found
+      return res.status(400).json({ error: 'No such user found!' }); // throw error when the user is not found
     }
     toUpdate.forEach(update => {
       user[update] = req.body[update]; //Update the users information as per indicated
     });
     await user.save(); //save the user to the database
     await user.updateOne();
-    res.json({ success: "User has been successfully updated" });
+    res.json({ success: 'User has been successfully updated' });
   } catch (error) {
     res.status(500).send(error);
   }
@@ -141,12 +141,12 @@ router.patch("/updateuser", async (req, res) => {
 //@desc Read the user based on provided email
 //@access Private
 
-router.get("/getuser", async (req, res) => {
+router.get('/getuser', async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
       return res.status(404).json({
-        error: "User not found"
+        error: 'User not found'
       });
     }
     res.status(200).json({
@@ -154,7 +154,7 @@ router.get("/getuser", async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      error: "Server is down"
+      error: 'Server is down'
     });
   }
 });

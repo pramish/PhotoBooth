@@ -1,12 +1,11 @@
-const JwtStrategy = require("passport-jwt").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
-const mongoose = require("mongoose");
-const User = require("../routes/api/users/users.model");
-const keys = require("./keys");
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+const mongoose = require('mongoose');
+const User = require('../routes/api/users/users.model');
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: keys.secretOrKey
+  secretOrKey: 'secretOrKey'
 };
 
 module.exports = passport => {
