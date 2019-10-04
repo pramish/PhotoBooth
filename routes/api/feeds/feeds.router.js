@@ -6,7 +6,7 @@ router
   .route('/')
   .get(feedController.getAllFeeds)
   .post(
-    feedController.detectImage,
+    // feedController.detectImage,
     feedController.uploadImage,
     feedController.createFeed
   )
