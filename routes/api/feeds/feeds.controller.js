@@ -44,7 +44,7 @@ const uploadImage = async (req, res, next) => {
 const postComments = async (req, res, next) => {
   try {
     //Get the current feed
-    const feed = await Feed.findById(req.params.imageId);
+    const feed = await Feed.findById({ _id: req.params.imageId });
     if (!feed) {
       res.status(404).json({
         error: 'No such feed found'
