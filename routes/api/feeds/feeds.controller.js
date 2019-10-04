@@ -24,39 +24,47 @@ const uploadImage = async (req, res, next) => {
   }
 };
 
-const detectImage = async (req, res, next) => {
-  // Creates a client
-  try {
-    const client = new vision.ImageAnnotatorClient();
-    // // Performs label detection on the image file
-    const [result] = await client.labelDetection('./images/hello.jpeg');
-    const labels = result.labelAnnotations;
-    console.log('Labels:');
-    labels.forEach(label => console.log(label.description));
-    // next();
-  } catch (error) {
-    console.log('The error is :', error);
-  }
-
-  //Have to detect the image before saving and after uploading
-};
-
-const uploadAndReturn = async (req, res, next) => {
-  try {
-  } catch (error) {}
-};
-
-// router.delete("/deleteimage", async (req, res) => {
-//   const feed = await Feed.findByIdAndDelete(req.params.id);
-//   if (!feed) {
-//     return res.json({
-//       message: "Images could not be deleted"
-//     });
+// const detectImage = async (req, res, next) => {
+//   // Creates a client
+//   try {
+//     const client = new vision.ImageAnnotatorClient();
+//     // // Performs label detection on the image file
+//     const [result] = await client.labelDetection('./images/hello.jpeg');
+//     const labels = result.labelAnnotations;
+//     console.log('Labels:');
+//     labels.forEach(label => console.log(label.description));
+//     // next();
+//   } catch (error) {
+//     console.log('The error is :', error);
 //   }
-//   res.json({
-//     message: "Images has been deleted"
-//   });
-// });
+
+//   //Have to detect the image before saving and after uploading
+// };
+
+const postComments = async (req, res, next) => {
+  try {
+    //Get the current feed
+    const feed = await Feed.findById(req.params.imageId);
+    if (!feed) {
+      res.status(404).json({
+        error: 'No such feed found'
+      });
+    } else {
+      console.log('Current feed is ', feed);
+      const img = req.files.myImg; //Getting the image from the front end
+      let response = await cloudinary.uploader.upload(img.tempFilePath); //Uploading the image to the cloudinary
+      console.log('Comments is ', response);
+      await feed.comments.push(response.url);
+      await feed.save(done);
+      return res.status(200).json(feed);
+      console.log('Comments has been successfully posted');
+    }
+  } catch (error) {
+    res.status(500).json({
+      error
+    });
+  }
+};
 
 module.exports = {
   getAllFeeds,
@@ -64,6 +72,6 @@ module.exports = {
   createFeed,
   deleteFeed,
   uploadImage,
-  uploadAndReturn,
-  detectImage
+  postComments
+  // detectImage
 };

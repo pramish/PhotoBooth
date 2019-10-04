@@ -29,6 +29,7 @@ const deleteOne = Model => async (req, res, next) => {
 };
 
 const getOne = Model => async (req, res, next) => {
+  // const id = req.body.imageId;
   const id = req.params.imageId;
   try {
     let doc = await Model.findById(id);

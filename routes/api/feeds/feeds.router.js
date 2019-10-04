@@ -12,11 +12,11 @@ router
   )
   .delete();
 
-router.post('/imageUpload', feedController.uploadAndReturn);
-
 router
   .route('/:imageId')
+  // .route('/hello')
   .get(feedController.getOneFeed)
-  .delete(feedController.deleteFeed);
+  .post(feedController.postComments)
+  .delete(feedController.deleteFeed, feedController.deleteFeed);
 
 module.exports = router;
