@@ -43,25 +43,53 @@ const uploadImage = async (req, res, next) => {
 
 const postComments = async (req, res, next) => {
   try {
+    const userID = req.params.imageId;
     //Get the current feed
-    const feed = await Feed.findById({ _id: req.params.imageId });
+    const feed = await Feed.findById({
+      _id: userID
+      // _id: req.body.imageId
+      // _id: '5d9416f92df1f520832f0b18'
+    });
+    // const feed = true
     if (!feed) {
       res.status(404).json({
         error: 'No such feed found'
       });
     } else {
       console.log('Current feed is ', feed);
+      // const abc = 2 * 2;
       const img = req.files.myImg; //Getting the image from the front end
       let response = await cloudinary.uploader.upload(img.tempFilePath); //Uploading the image to the cloudinary
-      console.log('Comments is ', response);
-      await feed.comments.push(response.url);
-      await feed.save(done);
-      return res.status(200).json(feed);
+      // console.log('Comments is Hello ');
+      // await feed.comments.push('response.url');
+      // PersonModel.update(
+      //   { _id: person._id },
+      //   { $push: { friends: friend } },
+      //   done
+      // );
+      feed.update(
+        {
+          _id: userID
+        },
+        {
+          // $push: { comments: Feed }
+          $push: { comments: response.url }
+        },
+        done
+      );
+      //   { _id: person._id },
+      // { $push: { friends: friend } },
+      // done
+      // await feed.save(done);
       console.log('Comments has been successfully posted');
+      // {$push: {friends: {firstName: "Harry", lastName: "Potter"}}}
+      return res.status(200).json({
+        Feedhahaha: feed
+      });
     }
   } catch (error) {
     res.status(500).json({
-      error
+      errorIs: error
     });
   }
 };

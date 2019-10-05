@@ -7,7 +7,7 @@ const feedsSchema = mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+      ref: 'User'
       // required: true
     },
     category: {
@@ -20,12 +20,14 @@ const feedsSchema = mongoose.Schema(
     },
     emoji: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Emoji"
+      ref: 'Emoji'
     },
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Feed" 
+        ref: "Feed"
+        // type: Number
+        // ref: 'Feed'
       }
     ],
     initial: {

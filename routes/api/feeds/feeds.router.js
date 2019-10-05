@@ -13,10 +13,10 @@ router
   .delete();
 
 router
-  .route('/:imageId')
-  // .route('/hello')
+  .route('/comments/:imageId')
+  // .route('/comments')
   .get(feedController.getOneFeed)
   .post(feedController.postComments)
-  .delete(feedController.deleteFeed, feedController.deleteFeed);
+  .delete(/*feedController.confirmDelete,*/ feedController.deleteFeed);
 
 module.exports = router;
