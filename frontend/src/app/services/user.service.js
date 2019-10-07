@@ -5,13 +5,18 @@ export const userService = {
   login
 };
 
-function signup(name, password) {
+function signup(name,email, password,confirmPassword) {
   const reqOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON
+    body: JSON.stringify({
+      "name": name,
+      "email": email,
+      "password": password,
+      "password2": confirmPassword
+    })
   };
-  return fetch("/users/register", reqOptions).then(res => res.json());
+  return fetch("/users/register", reqOptions).then(res =>{if(res.status == 200) return res;});
   // .then(json => {
   //     json.name;
   // });

@@ -18,8 +18,19 @@ const SignIn = ({ profileClicked }) => {
         console.log("logged in");
         console.log(localStorage.getItem("userToken"));
       }
-      // console.log(res);
       
+    });
+  };
+
+  const signUpClick = () => {
+    const name = document.getElementById("Full name").value;
+    const email = document.getElementById("SignInEmail").value;
+    const password = document.getElementById("SignInPass").value;
+    const confirmPassword = document.getElementById("Confirm Password").value;
+    userService.signup(name, email, password, confirmPassword).then(res => {
+      if (res !== null) {
+        console.log("Signed Up");
+      }
     });
   };
 
