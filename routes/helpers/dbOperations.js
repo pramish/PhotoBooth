@@ -19,7 +19,7 @@ const updateOne = Model => async (req, res, next) => {
 };
 
 const deleteOne = Model => async (req, res, next) => {
-  let id = req.params.imageId;
+  let id = req.params.id;
   try {
     let doc = await Model.findByIdAndDelete(id);
     return res.status(201).json(doc);
@@ -29,8 +29,7 @@ const deleteOne = Model => async (req, res, next) => {
 };
 
 const getOne = Model => async (req, res, next) => {
-  // const id = req.body.imageId;
-  const id = req.params.imageId;
+  const id = req.params.id;
   try {
     let doc = await Model.findById(id);
     return res.status(200).json(doc);

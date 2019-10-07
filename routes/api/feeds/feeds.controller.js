@@ -1,17 +1,38 @@
-const Feed = require('./feeds.model');
+const cloudinary = require("cloudinary").v2;
+const vision = require("@google-cloud/vision");
+
 const {
   createOne,
   updateOne,
   deleteOne,
   getOne,
   getAll
-} = require('../../helpers/dbOperations');
-const cloudinary = require('cloudinary').v2;
-const vision = require('@google-cloud/vision');
+} = require("../../helpers/dbOperations");
+const Feed = require("./feeds.model");
+const User = require("../users/users.model");
+
 const getAllFeeds = getAll(Feed);
+
 const getOneFeed = getOne(Feed);
+
 const createFeed = createOne(Feed);
-const deleteFeed = deleteOne(Feed);
+
+const deleteOneFeed = deleteOne(Feed);
+
+const isRightUser = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ user: req.user.id });
+    const feed = await Feed.findById(req.params.id);
+    // Check for post owner because we dont want anyone to delete post
+    if (feed.user.toString() !== req.user.id) {
+      return res.status(401).json({ notauthorized: "Use not authorized!" });
+    } else {
+      next();
+    }
+  } catch (err) {
+    return res.status(401).json({ message: err.message });
+  }
+};
 
 const uploadImage = async (req, res, next) => {
   try {
@@ -23,23 +44,6 @@ const uploadImage = async (req, res, next) => {
     next(error);
   }
 };
-
-// const detectImage = async (req, res, next) => {
-//   // Creates a client
-//   try {
-//     const client = new vision.ImageAnnotatorClient();
-//     // // Performs label detection on the image file
-//     const [result] = await client.labelDetection('./images/hello.jpeg');
-//     const labels = result.labelAnnotations;
-//     console.log('Labels:');
-//     labels.forEach(label => console.log(label.description));
-//     // next();
-//   } catch (error) {
-//     console.log('The error is :', error);
-//   }
-
-//   //Have to detect the image before saving and after uploading
-// };
 
 const postComments = async (req, res, next) => {
   try {
@@ -53,10 +57,10 @@ const postComments = async (req, res, next) => {
     // const feed = true
     if (!feed) {
       res.status(404).json({
-        error: 'No such feed found'
+        error: "No such feed found"
       });
     } else {
-      console.log('Current feed is ', feed);
+      console.log("Current feed is ", feed);
       // const abc = 2 * 2;
       const img = req.files.myImg; //Getting the image from the front end
       let response = await cloudinary.uploader.upload(img.tempFilePath); //Uploading the image to the cloudinary
@@ -81,7 +85,7 @@ const postComments = async (req, res, next) => {
       // { $push: { friends: friend } },
       // done
       // await feed.save(done);
-      console.log('Comments has been successfully posted');
+      console.log("Comments has been successfully posted");
       // {$push: {friends: {firstName: "Harry", lastName: "Potter"}}}
       return res.status(200).json({
         Feedhahaha: feed
@@ -98,8 +102,9 @@ module.exports = {
   getAllFeeds,
   getOneFeed,
   createFeed,
-  deleteFeed,
+  deleteOneFeed,
   uploadImage,
-  postComments
+  postComments,
+  isRightUser
   // detectImage
 };

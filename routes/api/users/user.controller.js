@@ -1,8 +1,8 @@
-const User = require('./users.model');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const registerValidation = require('../../../utils/validation/register.validation');
-const loginValidation = require('../../../utils/validation/login.validation');
+const User = require("./users.model");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const registerValidation = require("../../../utils/validation/register.validation");
+const loginValidation = require("../../../utils/validation/login.validation");
 
 //@routes POST api/users/register
 //@desc Register user
@@ -17,7 +17,7 @@ const createUser = async (req, res, next) => {
     //Checking up the user before registering to the database
     const user = await User.findOne({ email: req.body.email });
     if (user) {
-      return res.status(400).json({ email: 'User is already registered!!' });
+      return res.status(400).json({ email: "User is already registered!!" });
     }
     //Getting all the users credentials
     const newUser = new User({
@@ -52,7 +52,7 @@ const authenticateUser = async (req, res, next) => {
 
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      return res.status(404).json({ emailNotFound: 'Email not registered' });
+      return res.status(404).json({ emailNotFound: "Email not registered" });
     }
     // IF the user is found and comparing the hashed password with it.
     const isMatch = await bcrypt.compare(req.body.password, user.password);
@@ -68,13 +68,13 @@ const authenticateUser = async (req, res, next) => {
       console.log(jwtPayload);
 
       // Verify the token
-      var token = jwt.sign(jwtPayload, 'secretOrKey', {
+      var token = jwt.sign(jwtPayload, "secretOrKey", {
         expiresIn: 1800 //expires the jwt into half an hour
       });
 
       res.json({ token: token, user }); //Passing the token and the user to the front end
     } else {
-      res.status(400).json({ passwordIncorrect: 'Password does not match' });
+      res.status(400).json({ passwordIncorrect: "Password does not match" });
     }
   } catch (error) {
     res.status(400).json({
@@ -90,10 +90,10 @@ const deleteUser = async (req, res, next) => {
   try {
     const result = await User.findOneAndDelete({ email: req.body.email });
     if (result) {
-      return res.status(200).json({ success: 'User deleted' });
+      return res.status(200).json({ success: "User deleted" });
     }
     if (!result) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
   } catch (error) {
     return res.status(500).json({ error: error });
@@ -105,7 +105,7 @@ const deleteUser = async (req, res, next) => {
 //@access Private
 const updateUser = async (req, res, next) => {
   const toUpdate = Object.keys(req.body);
-  const allowedUpdate = ['name', 'email', 'password'];
+  const allowedUpdate = ["name", "email", "password"];
   const isValidOperation = toUpdate.every(update => {
     //This will determine the each value to be updated
     allowedUpdate.includes(update);
@@ -118,14 +118,14 @@ const updateUser = async (req, res, next) => {
     }
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      return res.status(404).json({ error: 'No such user found!' }); // throw error when the user is not found
+      return res.status(404).json({ error: "No such user found!" }); // throw error when the user is not found
     }
     toUpdate.forEach(update => {
       user[update] = req.body[update]; //Update the users information as per indicated
     });
     // await user.save(); //save the user to the database
     await user.updateOne();
-    res.json({ success: 'User has been successfully updated' });
+    res.json({ success: "User has been successfully updated" });
   } catch (error) {
     res.status(500).send(error);
   }
@@ -136,7 +136,7 @@ const getOneUser = async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
       return res.status(404).json({
-        error: 'User not found'
+        error: "User not found"
       });
     }
     res.status(200).json({
@@ -144,7 +144,7 @@ const getOneUser = async (req, res, next) => {
     });
   } catch (error) {
     res.status(500).json({
-      error: 'Server is down'
+      error: "Server is down"
     });
   }
 };

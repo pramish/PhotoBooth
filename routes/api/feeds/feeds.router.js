@@ -1,22 +1,26 @@
-const express = require('express');
+const express = require("express");
+const passport = require("passport");
+const feedController = require("./feeds.controller");
+const commentRouter = require("../comment/comment.router");
 const router = express.Router();
-const feedController = require('./feeds.controller');
 
 router
-  .route('/')
+  .route("/")
   .get(feedController.getAllFeeds)
   .post(
-    // feedController.detectImage,
+    passport.authenticate("jwt", { session: false }),
     feedController.uploadImage,
     feedController.createFeed
-  )
-  .delete();
+  );
 
 router
-  .route('/comments/:imageId')
-  // .route('/comments')
+  .route("/:id")
   .get(feedController.getOneFeed)
-  .post(feedController.postComments)
-  .delete(/*feedController.confirmDelete,*/ feedController.deleteFeed);
+  .delete(
+    passport.authenticate("jwt", { session: false }),
+    feedController.isRightUser,
+    feedController.deleteOneFeed
+  );
 
+router.use("/comment", commentRouter);
 module.exports = router;

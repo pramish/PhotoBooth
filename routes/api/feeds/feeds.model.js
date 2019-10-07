@@ -7,40 +7,29 @@ const feedsSchema = mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
-      // required: true
+      ref: "User",
+      required: true
     },
     category: {
-      type: String
-      // required: true
+      type: String,
+      required: true
     },
     views: {
       type: Number,
       default: 0
     },
-    emoji: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Emoji'
-    },
+    emoji: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Emoji"
+      }
+    ],
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Feed"
-        // type: Number
-        // ref: 'Feed'
+        ref: "Comment"
       }
-    ],
-    initial: {
-      type: Boolean,
-      default: false,
-      require: true
-    }
-    // emoji :- Naya model banaune ra tyeslai object id bata reference garne done
-    // timestamps done
-    // user :-current user done
-    // category done
-    // views done
-    // comments:feeds lai nai reference garne done
+    ]
   },
   { timestamps: true }
 );
