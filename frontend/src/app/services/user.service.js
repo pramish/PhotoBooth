@@ -12,13 +12,13 @@ function signup(user) {
   return axios.post("http://localhost:5000/users/register", user);
 }
 
-function login(user) {
+function login(user){
   return axios.post("http://localhost:5000/users/login", user).then(res => {
     const token = res.data.token;
     localStorage.setItem("userToken", token);
     auth(token);
   });
-}
+};
 
 function signOut(token) {
   if (token === localStorage.setItem("userToken")) {

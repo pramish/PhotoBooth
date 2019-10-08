@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import { userService } from "../services/user.service";
+import { useDispatch } from "react-redux";
+import jwt from "jsonwebtoken";
+import SetLoggedInUser from "../helpers/actions/login.action";
+
+
+
 
 const SignIn = ({ profileClicked, history }) => {
   const [sign_in, setSign_inClicked] = useState(true);
   const [sign_up, setSign_upClicked] = useState(false);
   const [errors, setErrors] = useState("");
+  const dispatch = useDispatch();
   const toggle = () => {
     setSign_inClicked(!sign_in);
     setSign_upClicked(!sign_up);
@@ -21,6 +28,7 @@ const SignIn = ({ profileClicked, history }) => {
 
     userService.login(user).then(res => {
       history.push("/");
+      dispatch(SetLoggedInUser(jwt.decode(localStorage.getItem("userToken"))));
     });
   };
 
