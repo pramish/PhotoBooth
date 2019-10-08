@@ -19,7 +19,7 @@ import EachFeed from "./EachFeed";
 import Categories from "./components/Categories";
 import SignIn from "./SignIn";
 
-const Home = () => {
+const Home = props => {
   const [open, setOpen] = useState(false);
   const [profileClicked, setProfileClicked] = useState(false);
 
@@ -55,7 +55,7 @@ const Home = () => {
       <div className="profile">
         <div>
           <img src={defaultImg} onClick={toggleSignIn} />
-          <SignIn profileClicked={profileClicked} />
+          <SignIn profileClicked={profileClicked} history={props.history} />
         </div>
       </div>
       <div className="side-categories">
