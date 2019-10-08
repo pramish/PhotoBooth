@@ -13,11 +13,16 @@ const SignIn = ({ profileClicked, history }) => {
   const signInClick = () => {
     const email = document.getElementById("SignInEmail").value;
     const password = document.getElementById("SignInPass").value;
-    userService.login(email, password).then(res => {
-      if (res !== null) {
-        console.log("logged in");
-        console.log(localStorage.getItem("userToken"));
-      }
+
+    const user = {
+      email: email,
+      password: password
+    };
+
+    userService.login(user).then(res => {
+      history.push("/");
+      console.log(res.data.token);
+      localStorage.setItem("userToken", res.data.token);
     });
   };
 
