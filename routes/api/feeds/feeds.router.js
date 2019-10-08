@@ -2,6 +2,8 @@ const express = require("express");
 const passport = require("passport");
 const feedController = require("./feeds.controller");
 const commentRouter = require("../comment/comment.router");
+const emojiRouter = require("../emoji/emoji.router");
+
 const router = express.Router();
 
 router
@@ -22,7 +24,7 @@ router
     feedController.deleteOneFeed
   );
 
-// router.use("/comment", commentRouter);
-// router.use("/emoji", emojiRouter);
+router.use("/comment", commentRouter);
+router.use("/emoji", emojiRouter);
 
 module.exports = router;

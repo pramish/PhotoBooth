@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const emojiSchema = mongoose({
+const emojiSchema = mongoose.Schema({
   emojiType: {
     type: String
   },

@@ -1,4 +1,3 @@
-const cloudinary = require("cloudinary").v2;
 const vision = require("@google-cloud/vision");
 
 const {
@@ -10,6 +9,7 @@ const {
 } = require("../../helpers/dbOperations");
 const Feed = require("./feeds.model");
 const User = require("../users/users.model");
+const imgUploader = require("../../helpers/imgUploader");
 
 const getAllFeeds = getAll(Feed);
 
@@ -23,6 +23,7 @@ const isRightUser = async (req, res, next) => {
   try {
     const user = await User.findOne({ user: req.user.id });
     const feed = await Feed.findById(req.params.id);
+
     // Check for post owner because we dont want anyone to delete post
     if (feed.user.toString() !== req.user.id) {
       return res.status(401).json({ notauthorized: "Use not authorized!" });
@@ -36,71 +37,18 @@ const isRightUser = async (req, res, next) => {
 
 const uploadImage = async (req, res, next) => {
   try {
-    let img = req.files.myImg;
-    let response = await cloudinary.uploader.upload(img.tempFilePath);
     // Attach image key to the body object with the uploaded image
-    req.body.image = response.url;
-    // Attach user id of the logged in user body object
-    req.body.user = req.user.id;
-    req.body.views = 0;
-    console.log(req.body);
+    let imageUrl = imgUploader(req.files.myImg);
+    req.body.image = imageUrl;
 
+    // Attach user id of the logged in user body object
+    req.body.user = req.user._id;
+    // Set initial views to 0
+    req.body.views = 0;
+    // Send the respose to next middleware
     next();
   } catch (error) {
     next(error);
-  }
-};
-
-const postComments = async (req, res, next) => {
-  try {
-    const userID = req.params.imageId;
-    //Get the current feed
-    const feed = await Feed.findById({
-      _id: userID
-      // _id: req.body.imageId
-      // _id: '5d9416f92df1f520832f0b18'
-    });
-    // const feed = true
-    if (!feed) {
-      res.status(404).json({
-        error: "No such feed found"
-      });
-    } else {
-      console.log("Current feed is ", feed);
-      // const abc = 2 * 2;
-      const img = req.files.myImg; //Getting the image from the front end
-      let response = await cloudinary.uploader.upload(img.tempFilePath); //Uploading the image to the cloudinary
-      // console.log('Comments is Hello ');
-      // await feed.comments.push('response.url');
-      // PersonModel.update(
-      //   { _id: person._id },
-      //   { $push: { friends: friend } },
-      //   done
-      // );
-      feed.update(
-        {
-          _id: userID
-        },
-        {
-          // $push: { comments: Feed }
-          $push: { comments: response.url }
-        },
-        done
-      );
-      //   { _id: person._id },
-      // { $push: { friends: friend } },
-      // done
-      // await feed.save(done);
-      console.log("Comments has been successfully posted");
-      // {$push: {friends: {firstName: "Harry", lastName: "Potter"}}}
-      return res.status(200).json({
-        Feedhahaha: feed
-      });
-    }
-  } catch (error) {
-    res.status(500).json({
-      errorIs: error
-    });
   }
 };
 
@@ -110,7 +58,6 @@ module.exports = {
   createFeed,
   deleteOneFeed,
   uploadImage,
-  postComments,
   isRightUser
   // detectImage
 };

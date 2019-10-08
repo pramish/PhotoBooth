@@ -7,7 +7,8 @@ const connect = () => {
     .connect(process.env.MONGOURI, {
       useNewUrlParser: true,
       useCreateIndex: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      useFindAndModify: false
     })
     .then(() => {
       console.log(

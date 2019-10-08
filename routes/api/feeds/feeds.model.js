@@ -11,12 +11,15 @@ const feedsSchema = mongoose.Schema(
       required: true
     },
     category: {
-      type: String,
-      required: true
+      type: String
     },
     views: {
       type: Number,
       default: 0
+    },
+    default: {
+      type: Boolean,
+      default: true
     },
     emoji: [
       {
@@ -27,7 +30,7 @@ const feedsSchema = mongoose.Schema(
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Comment"
+        ref: "Feed"
       }
     ]
   },

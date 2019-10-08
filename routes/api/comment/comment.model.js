@@ -7,7 +7,7 @@ const commentSchema = mongoose.Schema(
       required: true
     },
     image: {
-      type: JSON,
+      type: String,
       require: true
     },
     emoji: [
@@ -22,7 +22,7 @@ const commentSchema = mongoose.Schema(
         ref: "Comment"
       }
     ],
-    commentFor: {
+    feed: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Feed",
       required: true
