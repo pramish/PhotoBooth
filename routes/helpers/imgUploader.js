@@ -7,7 +7,7 @@ const cloudinary = require("cloudinary").v2;
  */
 const imgUploader = async imgTobeUploaded => {
   let response = await cloudinary.uploader.upload(imgTobeUploaded.tempFilePath);
-  return response.url;
+  return { url: response.url, publicId: response.public_id };
 };
 
 module.exports = imgUploader;

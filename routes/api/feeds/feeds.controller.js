@@ -1,4 +1,9 @@
 const vision = require("@google-cloud/vision");
+const client = new vision.ImageAnnotatorClient();
+const cloudinary = require("cloudinary").v2;
+const Tesseract = require("tesseract.js");
+
+require("dotenv").config();
 
 const {
   createOne,
@@ -70,8 +75,16 @@ const isRightUser = async (req, res, next) => {
 const uploadImage = async (req, res, next) => {
   try {
     // Attach image key to the body object with the uploaded image
-    // let imageUrl = imgUploader(req.files.myImg);
-    req.body.image = "imageUrl";
+
+    let { url, publicId } = await imgUploader(req.files.myImg);
+    let containText = await detectText(url);
+    if (containText) {
+      // delete that uploded image
+      const destroyRes = await cloudinary.uploader.destroy(publicId);
+      // send res
+      res.json({ errMsg: "Text filled image cannot be uploaded!" });
+    }
+    req.body.image = url;
 
     // Attach user id of the logged in user body object
     req.body.user = req.user._id;
@@ -114,6 +127,22 @@ const checkDeletionCriteria = async (req, res, next) => {
   }
 };
 
+// Inspired from the blog post https://www.woolha.com/tutorials/node-js-google-cloud-vision-api-examples written by IVAN ANDRIANTO
+const detectText = async image => {
+  try {
+    const results = await client.textDetection(image);
+    const result = results[0].textAnnotations;
+    if (result.length === 0) {
+      return false;
+    } else {
+      const text = result[0].description;
+      return true;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   getAllFeeds,
   getOneFeed,
@@ -123,5 +152,4 @@ module.exports = {
   isRightUser,
   checkDeletionCriteria,
   updateOneFeed
-  // detectImage
 };

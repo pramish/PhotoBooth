@@ -10,11 +10,10 @@ const addNewComment = async (req, res, next) => {
         error: "No such feed found"
       });
     } else {
-      // const commentImgUrl = imgUploader(req.files.myImg);
+      const { url } = imgUploader(req.files.myImg);
       const newCommentFeed = new Feed({
         user: req.user._id,
-        image:
-          "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg",
+        image: url,
         feed: feed._id,
         default: false
       });

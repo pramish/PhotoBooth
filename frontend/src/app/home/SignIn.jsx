@@ -18,7 +18,6 @@ const SignIn = ({ profileClicked }) => {
         console.log("logged in");
         console.log(localStorage.getItem("userToken"));
       }
-      
     });
   };
 
@@ -34,7 +33,6 @@ const SignIn = ({ profileClicked }) => {
     });
   };
 
-  const signUpClick = () => {};
   if (profileClicked) {
     if (sign_in === false) {
       return (

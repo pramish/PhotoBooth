@@ -37,6 +37,8 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "react-images-upload": "^1.2.7",
+    "tesseract.js": "^2.0.0-beta.1",
+    "tesseractocr": "^1.2.1",
     "underscore": "^1.9.1",
     "validator": "^11.1.0"
   },
