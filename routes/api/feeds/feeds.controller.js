@@ -84,6 +84,15 @@ const uploadImage = async (req, res, next) => {
       // send res
       res.json({ errMsg: "Text filled image cannot be uploaded!" });
     }
+    // Check Adult Content
+    const isAdult = await detectAdultConent(url);
+    if (isAdult) {
+      // delete that uploded image
+      const destroyRes = await cloudinary.uploader.destroy(publicId);
+      // send res
+      res.json({ errMsg: "No Adult Content!" });
+    }
+
     req.body.image = url;
 
     // Attach user id of the logged in user body object
@@ -140,6 +149,17 @@ const detectText = async image => {
     }
   } catch (err) {
     console.log(err);
+  }
+};
+
+const detectAdultConent = async image => {
+  // Performs safe search detection on the local file
+  const [result] = await client.safeSearchDetection(image);
+  const detections = result.safeSearchAnnotation;
+  if (detections.adult === "VERY_LIKELY" || detections.adult === "LIKELY") {
+    return true;
+  } else {
+    return false;
   }
 };
 
