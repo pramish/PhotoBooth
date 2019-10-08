@@ -38,7 +38,13 @@ const uploadImage = async (req, res, next) => {
   try {
     let img = req.files.myImg;
     let response = await cloudinary.uploader.upload(img.tempFilePath);
+    // Attach image key to the body object with the uploaded image
     req.body.image = response.url;
+    // Attach user id of the logged in user body object
+    req.body.user = req.user.id;
+    req.body.views = 0;
+    console.log(req.body);
+
     next();
   } catch (error) {
     next(error);

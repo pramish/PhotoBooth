@@ -22,5 +22,7 @@ router
     feedController.deleteOneFeed
   );
 
-router.use("/comment", commentRouter);
+// router.use("/comment", commentRouter);
+// router.use("/emoji", emojiRouter);
+
 module.exports = router;
