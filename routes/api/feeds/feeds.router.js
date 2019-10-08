@@ -18,9 +18,16 @@ router
 router
   .route("/:id")
   .get(feedController.getOneFeed)
+  .put(
+    passport.authenticate("jwt", { session: false }),
+    feedController.isRightUser,
+    feedController.checkDeletionCriteria,
+    feedController.updateOneFeed
+  )
   .delete(
     passport.authenticate("jwt", { session: false }),
     feedController.isRightUser,
+    feedController.checkDeletionCriteria,
     feedController.deleteOneFeed
   );
 
