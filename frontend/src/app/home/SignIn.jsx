@@ -21,8 +21,6 @@ const SignIn = ({ profileClicked, history }) => {
 
     userService.login(user).then(res => {
       history.push("/");
-      console.log(res.data.token);
-      localStorage.setItem("userToken", res.data.token);
     });
   };
 
