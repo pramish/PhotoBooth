@@ -17,9 +17,15 @@ import defaultImg from "../../assets/default-girl.png";
 import AddImageForm from "./components/AddImageForm";
 import EachFeed from "./EachFeed";
 import Categories from "./components/Categories";
+import SignIn from "./SignIn";
 
 const Home = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [profileClicked, setProfileClicked] = useState(false);
+
+  const toggleSignIn = () => {
+    setProfileClicked(!profileClicked);
+  };
 
   const handleAddClick = () => {
     handleOpen();
@@ -48,7 +54,8 @@ const Home = () => {
       </div>
       <div className="profile">
         <div>
-          <img src={defaultImg} />
+          <img src={defaultImg} onClick={toggleSignIn} />
+          <SignIn profileClicked={profileClicked} />
         </div>
       </div>
       <div className="side-categories">

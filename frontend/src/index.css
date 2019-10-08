@@ -12,7 +12,10 @@ body {
   height: 100%;
   display: flex;
   flex-direction: row;
+  background-image: linear-gradient(black, white);
+
 }
+
 
 #root {
   flex: 1;
