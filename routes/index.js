@@ -6,6 +6,7 @@ const errorHandler = require('../services/errorHandler');
 const searchService = require('../services/search');
 const popularService = require('../services/popular');
 const trendingService = require('../services/trending');
+const newService = require('../services/new');
 const { createUser, authenticateUser } = require('../services/auth');
 
 router.use('/users', userRouter);
@@ -17,6 +18,7 @@ router.route('/login').post(authenticateUser);
 router.use('/search', searchService);
 router.use('/trending', trendingService);
 router.use('/popular', popularService);
+router.use('/new', newService);
 // router.use("/emoji", emojiRouter);
 
 router.use(errorHandler);
