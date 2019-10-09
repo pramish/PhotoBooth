@@ -27,10 +27,14 @@ const Home = props => {
   const [open, setOpen] = useState(false);
   const [profileClicked, setProfileClicked] = useState(false);
   const [feeds, setFeeds] = useState([]);
+  const [popularlySortedFeeds, setSortedFeeds] = useState([]);
+
+  const skip = 0;
+  const limit = 10;
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/feeds')
+      .get(`http://localhost:5000/feeds?limit=${limit}&skip=${skip}`)
       .then(res => {
         console.log(res);
         setFeeds(res.data);
@@ -38,7 +42,16 @@ const Home = props => {
       .catch(err => {
         console.log(err);
       });
-  });
+  }, []);
+
+  const sortByPopularity = () => {
+    console.log(feeds);
+    console.log(feeds[0].views);
+    feeds.sort((a, b) => b.views - a.views);
+    console.log(feeds);
+    setFeeds(feeds);
+    props.history.push("/home");
+  };
 
   const toggleSignIn = () => {
     setProfileClicked(!profileClicked);
@@ -99,8 +112,9 @@ const Home = props => {
       <div className='main-feeds'>
         <CustomModel open={open} handleClose={handleClose} />
         {feeds.map(feed => (
-          <EachFeed feedImg={feed.image} />
+          <EachFeed feedImg={feed.image} feedId={feed._id} />
         ))}
+        <button onClick={sortByPopularity}>SORT</button>
       </div>
       <div className='side-artist'>
         <div>

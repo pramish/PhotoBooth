@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { userService } from "../services/user.service";
+
 
 import meme from "../../assets/meme.jpg";
 import boy from "../../assets/default-round.png";
@@ -9,7 +11,7 @@ import sad from "../../assets/emojis/sad.png";
 import smile from "../../assets/emojis/smile.png";
 import love from "../../assets/emojis/love.png";
 
-const EachFeed = ({ feedImg }) => {
+const EachFeed = ({ feedImg, feedId }) => {
   const [toggleDetails, setToggleDetails] = useState(false);
   const [reaction, setReaction] = useState(false);
   const [recGiven, setRecGiven] = useState(false);
@@ -27,10 +29,19 @@ const EachFeed = ({ feedImg }) => {
     setReaction(!reaction);
   };
 
-  const giveRec = emoji => {
+  const giveRec = (emoji , type) => {
+    const data = {
+      type: type
+    }
     setRecGiven(!recGiven);
+    if (emoji && emoji === givenEmo){
+      userService.addEmoji(feedId, data).then(res => console.log("old emo:" + res.data));
+    }
     setGivenEmo(emoji);
+    userService.addEmoji(feedId, data).then (res => console.log(res.data));
     setReaction(!reaction);
+
+
   };
 
   return (
@@ -48,7 +59,7 @@ const EachFeed = ({ feedImg }) => {
           reaction={reaction}
           toggleReaction={toggleReaction}
           givenEmo={givenEmo}
-          giveRec={emoji => giveRec(emoji)}
+          giveRec={(emoji,type) => giveRec(emoji,type)}
           recGiven={recGiven}
         />
       </div>
@@ -72,11 +83,11 @@ const DetailsView = ({
     </div>
     {reaction ? (
       <div style={{ backgroundColor: "#ffffff" }}>
-        <img src={laugh} onClick={() => giveRec(laugh)} />
-        <img src={smile} onClick={() => giveRec(smile)} />
-        <img src={sad} onClick={() => giveRec(sad)} />
-        <img src={like} onClick={() => giveRec(like)} />
-        <img src={love} onClick={() => giveRec(love)} />
+        <img src={laugh} onClick={() => giveRec(laugh,"laugh")} />
+        <img src={smile} onClick={() => giveRec(smile,"smile")} />
+        <img src={sad} onClick={() => giveRec(sad,"sad")} />
+        <img src={like} onClick={() => giveRec(like,"like")} />
+        <img src={love} onClick={() => giveRec(love,"love")} />
       </div>
     ) : (
       <div></div>

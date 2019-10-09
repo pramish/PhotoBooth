@@ -8,6 +8,7 @@
     "axios": "^0.19.0",
     "lodash": "^4.17.15",
     "react": "^16.9.0",
+    "react-data-sort": "^1.2.1",
     "react-dom": "^16.9.0",
     "react-glide": "^3.2.0",
     "react-icons": "^3.7.0",

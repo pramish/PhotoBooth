@@ -15,6 +15,8 @@ import styled from 'styled-components';
 const AddImageForm = () => {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
+  const [title, setTitle] = useState(null);
+
   const postHandler = async () => {
     let formData = new FormData();
     formData.append('myImg', image);
@@ -58,8 +60,8 @@ const AddImageForm = () => {
           </Fab>
 
           <FormControl>
-            <InputLabel htmlFor='title'>Title</InputLabel>
-            <Input id='title' aria-describedby='title' />
+            <InputLabel htmlFor="title">{title}</InputLabel>
+            <Input name="title" id="title" aria-describedby="title" />
           </FormControl>
           <Button color='secondary' onClick={postHandler}>
             Create a Feed
