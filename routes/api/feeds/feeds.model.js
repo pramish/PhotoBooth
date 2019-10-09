@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const feedsSchema = mongoose.Schema(
   {
     image: {
@@ -7,7 +7,11 @@ const feedsSchema = mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
+      required: true
+    },
+    title: {
+      type: String,
       required: true
     },
     category: {
@@ -24,17 +28,18 @@ const feedsSchema = mongoose.Schema(
     emoji: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Emoji"
+        ref: 'Emoji'
       }
     ],
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Feed"
+        ref: 'Feed'
       }
     ]
   },
   { timestamps: true }
 );
+// feedsSchema.index({ title: 'text', category: 'text' });
 
-module.exports = Feed = mongoose.model("Feed", feedsSchema);
+module.exports = Feed = mongoose.model('Feed', feedsSchema);
