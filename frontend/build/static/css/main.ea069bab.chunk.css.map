@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.css"],"names":[],"mappings":"AAAA,EACE,6BAEF,CAEA,KACE,QAAS,CACT,SACF","file":"main.ea069bab.chunk.css","sourcesContent":["* {\r\n  font-family: \"Nunito\", sans-serif;\r\n  /* color: white; */\r\n}\r\n\r\nbody {\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n"]}
