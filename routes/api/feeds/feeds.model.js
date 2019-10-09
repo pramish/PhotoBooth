@@ -12,7 +12,6 @@ const feedsSchema = mongoose.Schema(
     },
     title: {
       type: String
-      // required: true
     },
     views: {
       type: Number,

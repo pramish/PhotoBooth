@@ -1,6 +1,6 @@
 const vision = require("@google-cloud/vision");
 const client = new vision.ImageAnnotatorClient();
-const cloudinary = require('cloudinary').v2;
+const cloudinary = require("cloudinary").v2;
 
 require("dotenv").config();
 
@@ -29,7 +29,7 @@ const getAllFeeds = async (req, res, next) => {
     let feeds = await Feed.find({})
       .skip(skip)
       .limit(limit)
-      .sort('-createdAt');
+      .sort("createdAt");
 
     // send res back
     res.status(201).json(feeds);
@@ -42,13 +42,13 @@ const countViews = async (req, res) => {
   try {
     let imageToCount = req.params.imageId;
     console.log(imageToCount);
-    
+
     const feed = await Feed.findById(imageToCount);
     const views = feed.views;
     // const feed = await Feed.findById(id);
     // feed.image = placeholder;
     // const updatedFeed = await Feed.findByIdAndUpdate(feed.id, feed
-    const updateViewFeed = await Feed.findByIdAndUpdate(imageToCount,{
+    const updateViewFeed = await Feed.findByIdAndUpdate(imageToCount, {
       views: views + 1
     });
     res.json({
@@ -57,7 +57,12 @@ const countViews = async (req, res) => {
   } catch (error) {}
 };
 
-const getOneFeed = getOne(Feed);
+const getOneFeed = async (req, res, next) => {
+  let feed = await Feed.findById(req.params.id)
+    .populate("comments")
+    .exec();
+  res.json(feed);
+};
 
 const createFeed = createOne(Feed);
 
@@ -195,7 +200,11 @@ const detectAdultConent = async image => {
   // Performs safe search detection on the local file
   const [result] = await client.safeSearchDetection(image);
   const detections = result.safeSearchAnnotation;
-  if (detections.adult === "VERY_LIKELY" || detections.adult === "LIKELY") {
+
+  if (
+    (detections !== null && detections.adult === "VERY_LIKELY") ||
+    detections.adult === "LIKELY"
+  ) {
     return true;
   } else {
     return false;

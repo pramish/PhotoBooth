@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { userService } from "../services/user.service";
-
 
 import meme from "../../assets/meme.jpg";
 import boy from "../../assets/default-round.png";
@@ -10,8 +10,9 @@ import like from "../../assets/emojis/like.png";
 import sad from "../../assets/emojis/sad.png";
 import smile from "../../assets/emojis/smile.png";
 import love from "../../assets/emojis/love.png";
+import { Header } from "semantic-ui-react";
 
-const EachFeed = ({ feedImg, feedId }) => {
+const EachFeed = ({ feed, history }) => {
   const [toggleDetails, setToggleDetails] = useState(false);
   const [reaction, setReaction] = useState(false);
   const [recGiven, setRecGiven] = useState(false);
@@ -29,43 +30,51 @@ const EachFeed = ({ feedImg, feedId }) => {
     setReaction(!reaction);
   };
 
-  const giveRec = (emoji , type) => {
+  const giveRec = (emoji, type) => {
     const data = {
       type: type
-    }
+    };
     setRecGiven(!recGiven);
-    if (emoji && emoji === givenEmo){
-      userService.addEmoji(feedId, data).then(res => console.log("old emo:" + res.data));
+    if (emoji && emoji === givenEmo) {
+      userService
+        .addEmoji(feedId, data)
+        .then(res => console.log("old emo:" + res.data));
     }
     setGivenEmo(emoji);
-    userService.addEmoji(feedId, data).then (res => console.log(res.data));
+    userService.addEmoji(feedId, data).then(res => console.log(res.data));
     setReaction(!reaction);
-
-
   };
 
   return (
-    <Container
-      onMouseEnter={showDetails}
-      onMouseLeave={hideDetails}
-      toggle={toggleDetails}
-    >
-      <div className="img-wrapper">
-        <img src={feedImg} />
+    <Container className="ui card eachfeed">
+      <div className="content"></div>
+      <div className="image" onClick={() => history.push(`/feed/${feed._id}`)}>
+        <img src={feed.image} />
       </div>
-      <div className="overlay">
-        <DetailsView
-          image={boy}
-          reaction={reaction}
-          toggleReaction={toggleReaction}
-          givenEmo={givenEmo}
-          giveRec={(emoji,type) => giveRec(emoji,type)}
-          recGiven={recGiven}
-        />
+
+      <div className="extra content">
+        <div className="ui large transparent left icon input">
+          <span>{feed.title}</span>
+        </div>
+      </div>
+      <div className="content">
+        <span className="right floated">
+          <DetailsView
+            image={boy}
+            reaction={reaction}
+            toggleReaction={toggleReaction}
+            givenEmo={givenEmo}
+            giveRec={(emoji, type) => giveRec(emoji, type)}
+            recGiven={recGiven}
+          />
+        </span>
+        <i className="comment icon"></i>3 comments
       </div>
     </Container>
   );
 };
+
+export default EachFeed;
 
 const DetailsView = ({
   image,
@@ -75,19 +84,34 @@ const DetailsView = ({
   giveRec,
   recGiven
 }) => (
-  <DetailsViewContainer>
-    <h3>Let's go Stake!! </h3>
-    <div className="author">
-      <img src={image} />
-      <p>IoanMack</p>
-    </div>
+  <div>
     {reaction ? (
       <div style={{ backgroundColor: "#ffffff" }}>
-        <img src={laugh} onClick={() => giveRec(laugh,"laugh")} />
-        <img src={smile} onClick={() => giveRec(smile,"smile")} />
-        <img src={sad} onClick={() => giveRec(sad,"sad")} />
-        <img src={like} onClick={() => giveRec(like,"like")} />
-        <img src={love} onClick={() => giveRec(love,"love")} />
+        <img
+          style={{ width: "2rem", height: "2rem" }}
+          src={laugh}
+          onClick={() => giveRec(laugh, "laugh")}
+        />
+        <img
+          style={{ width: "2rem", height: "2rem" }}
+          src={smile}
+          onClick={() => giveRec(smile, "smile")}
+        />
+        <img
+          style={{ width: "2rem", height: "2rem" }}
+          src={sad}
+          onClick={() => giveRec(sad, "sad")}
+        />
+        <img
+          style={{ width: "2rem", height: "2rem" }}
+          src={like}
+          onClick={() => giveRec(like, "like")}
+        />
+        <img
+          style={{ width: "2rem", height: "2rem" }}
+          src={love}
+          onClick={() => giveRec(love, "love")}
+        />
       </div>
     ) : (
       <div></div>
@@ -95,53 +119,28 @@ const DetailsView = ({
 
     {recGiven ? (
       <div>
-        <img src={givenEmo} onClick={giveRec} />
+        <img
+          style={{ width: "2rem", height: "2rem" }}
+          src={givenEmo}
+          onClick={giveRec}
+        />
       </div>
     ) : (
       <button onClick={toggleReaction}> React </button>
     )}
-  </DetailsViewContainer>
+  </div>
 );
 
-export default EachFeed;
-
-const DetailsViewContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-  margin-left: 1rem;
-  margin-top: 0.4em;
-
-  h3 {
-    margin: 0;
-  }
-  .author {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: row;
-    align-items: center;
-    p {
-      margin-left: 0.7rem;
-    }
-  }
-  img {
-    height: 2em;
-    width: 2em;
-    &:hover {
-      background: black;
-    }
-  }
-`;
-
 const Container = styled.div`
+color: black;
   cursor: pointer;
   display: grid;
-  .img-wrapper,
-  .overlay {
-    grid-area: 1 / 1;
-    /* ${props => (props.toggle ? "" : "display: flex;  ")} */
-  }
+
+  padding-bottom: 1.2rem;
+
+  background-color: whitesmoke;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  
   .img-wrapper {
     height: 20rem;
     img {
@@ -152,6 +151,18 @@ const Container = styled.div`
       height: 20rem;
       /* ${props =>
         props.toggle ? "object-fit: contain; margin-top: 1em;" : ""} */
+    }
+  }
+
+  .details {
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .btns {
+      display: flex;
+      flex-direction: row;
+    justify-content: space-around;
     }
   }
  

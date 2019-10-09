@@ -10,14 +10,14 @@ const addNewComment = async (req, res, next) => {
         error: "No such feed found"
       });
     } else {
-      const { url } = imgUploader(req.files.myImg);
+      const { url, publicId } = await imgUploader(req.files.myImg);
       const newCommentFeed = new Feed({
         user: req.user._id,
         image: url,
-        feed: feed._id,
         default: false
       });
       const commtRes = await newCommentFeed.save();
+
       feed.comments.unshift(commtRes._id);
       const updatedFeed = await Feed.findByIdAndUpdate(feed.id, feed, {
         new: true

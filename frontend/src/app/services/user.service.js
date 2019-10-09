@@ -2,13 +2,6 @@ import React from "react";
 import axios from "axios";
 import auth from "../helpers/auth/auth";
 
-export const userService = {
-  signup,
-  login,
-  signOut,
-  addEmoji
-};
-
 function signup(user) {
   return axios.post("http://localhost:5000/register", user);
 }
@@ -27,6 +20,12 @@ function signOut(token) {
   }
 }
 
-function addEmoji(id , data) {
-  return axios.post("http://localhost:5000/feeds/emoji/"+ id, data);
+function addEmoji(id, data) {
+  return axios.post("http://localhost:5000/feeds/emoji/" + id, data);
 }
+
+export const userService = {
+  signup,
+  login,
+  signOut
+};
