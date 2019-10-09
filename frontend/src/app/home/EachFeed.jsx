@@ -4,7 +4,7 @@ import styled from "styled-components";
 import meme from "../../assets/meme.jpg";
 import boy from "../../assets/default-round.png";
 
-const EachFeed = () => {
+const EachFeed = ({feedImg}) => {
   const [toggleDetails, setToggleDetails] = useState(false);
 
   const showDetails = () => {

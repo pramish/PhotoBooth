@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import {
   MdHome,
@@ -21,10 +21,24 @@ import SignIn from "./SignIn";
 import { useDispatch } from "react-redux";
 import jwt from "jsonwebtoken";
 import SetLoggedInUser from "../helpers/actions/login.action";
+import axios from "axios";
 
 const Home = props => {
   const [open, setOpen] = useState(false);
   const [profileClicked, setProfileClicked] = useState(false);
+  const [feeds, setFeeds] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/feeds")
+      .then(res => {
+        console.log(res);
+        setFeeds(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
 
   const toggleSignIn = () => {
     setProfileClicked(!profileClicked);
@@ -42,8 +56,8 @@ const Home = props => {
   };
   const dispatch = useDispatch();
 
-  const token = (localStorage.getItem("userToken"));
-  if(token){
+  const token = localStorage.getItem("userToken");
+  if (token) {
     dispatch(SetLoggedInUser(jwt.decode(token)));
   }
 
@@ -84,16 +98,9 @@ const Home = props => {
       </div>
       <div className="main-feeds">
         <CustomModel open={open} handleClose={handleClose} />
-        <EachFeed />
-        <EachFeed />
-        <EachFeed />
-        <EachFeed />
-        <EachFeed />
-        <EachFeed />
-        <EachFeed />
-        <EachFeed />
-        <EachFeed />
-        <EachFeed />
+        {feeds.map(feed => (
+          <EachFeed />
+        ))}
       </div>
       <div className="side-artist">
         <div>
