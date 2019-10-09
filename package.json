@@ -11,8 +11,7 @@
     "dev": "concurrently \"npm run frontend \" \"npm run server\"",
     "test:unit": "./node_modules/.bin/mocha test/unit/**/*.js --timeout 10000 --exit",
     "test:functional": "./node_modules/.bin/nightwatch",
-    "test": "echo \"No test\"",
-    "heroku-postbuild": "cd frontend && yarn install && yarn build"
+    "test": "echo \"No test\""
   },
   "keywords": [],
   "author": "",
