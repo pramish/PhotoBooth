@@ -18,7 +18,7 @@ const AddImageModel = () => {
     formData.append("myImg", image);
     formData.append("title", title);
     setUploading(true);
-    let res = await Axios.post("/feeds", formData);
+    let res = await Axios.post("http://localhost:5000/feeds", formData);
     if (res.data.errMsg) {
       setErrorMsg(res.data.errMsg);
     }

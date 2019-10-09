@@ -9,7 +9,7 @@ import { HomeContainer } from "./styles";
 import { CustomModel } from "./components/CustomModel";
 import Navbar from "../common/Navbar";
 import SetLoggedInUser from "../helpers/actions/login.action";
-import { Grid, Loader } from "semantic-ui-react";
+import { Grid, Loader, Button } from "semantic-ui-react";
 
 const Home = props => {
   const [open, setOpen] = useState(false);
@@ -24,7 +24,7 @@ const Home = props => {
 
   useEffect(() => {
     axios
-      .get(`/feeds?limit=${limit}&skip=${skip}`)
+      .get(`http://localhost:5000/feeds?limit=${limit}&skip=${skip}`)
       .then(res => {
         console.log(res);
         setFeeds(res.data);
@@ -43,6 +43,12 @@ const Home = props => {
     setFeeds(feeds);
     props.history.push("/home");
   };
+  const handleTrending = () => {
+    feeds.sort((a, b) => b.comments.length - a.comments.length);
+    console.log(feeds);
+    setFeeds(feeds);
+    props.history.push("/home");
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -55,6 +61,11 @@ const Home = props => {
   return (
     <HomeContainer>
       <Navbar history={props.history} />
+      <div style={{ marginTop: "4rem" }}>
+        <Button onClick={handleTrending}>Trending Posts</Button>
+        <Button onClick={sortByPopularity}>Popular on Views</Button>
+      </div>
+
       <div className="main-feeds">
         {uploading ? (
           <Loader active inline="centered" />

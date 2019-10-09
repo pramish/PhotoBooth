@@ -3,11 +3,11 @@ import axios from "axios";
 import auth from "../helpers/auth/auth";
 
 function signup(user) {
-  return axios.post("/register", user);
+  return axios.post("http://localhost:5000/register", user);
 }
 
 function login(user) {
-  return axios.post("/login", user).then(res => {
+  return axios.post("http://localhost:5000/login", user).then(res => {
     const token = res.data.token;
     localStorage.setItem("userToken", token);
     auth(token);
@@ -21,11 +21,12 @@ function signOut(token) {
 }
 
 function addEmoji(id, data) {
-  return axios.post("/feeds/emoji/" + id, data);
+  return axios.post("http://localhost:5000/feeds/emoji/" + id, data);
 }
 
 export const userService = {
   signup,
   login,
-  signOut
+  signOut,
+  addEmoji
 };

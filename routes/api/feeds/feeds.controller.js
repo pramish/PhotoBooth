@@ -58,6 +58,8 @@ const countViews = async (req, res) => {
 };
 
 const getOneFeed = async (req, res, next) => {
+  console.log("ID:", req.params.id);
+
   let feed = await Feed.findById(req.params.id)
     .populate("comments")
     .exec();

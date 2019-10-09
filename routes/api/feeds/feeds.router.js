@@ -39,7 +39,7 @@ router
 //   res.json(feeds);
 // });
 
-router.route("/:imageId").post(feedController.countViews);
+// router.route("/:imageId").post(feedController.countViews);
 
 router.use("/comment", commentRouter);
 router.use("/emoji", emojiRouter);

@@ -33,7 +33,7 @@ const Feed = props => {
 
     setUploading(true);
     let res = await Axios.post(
-      `/feeds/comment/${id}`,
+      `http://localhost:5000/feeds/comment/${id}`,
       formData
     );
 
@@ -58,7 +58,7 @@ const Feed = props => {
   };
 
   useEffect(() => {
-    Axios.get(`/feeds/${id}`).then(res => {
+      Axios.get(`http://localhost:5000/feeds/${id}`).then(res => {
       setFeed(res.data);
       if (res.data.comments.length > 0) {
         setComments(res.data.comments);
