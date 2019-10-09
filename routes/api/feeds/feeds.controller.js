@@ -23,7 +23,7 @@ const getAllFeeds = async (req, res, next) => {
   // Get query params
   let skip = Number(req.query.skip) || 0;
   let limit = Number(req.query.limit) || 10;
-  console.log("Skip", skip, "Limit", limit);
+  // console.log("Skip", skip, "Limit", limit);
 
   // Pass skip and limit to the find query
   try {
