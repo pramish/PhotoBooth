@@ -9,9 +9,11 @@ import sad from "../../assets/emojis/sad.png";
 import smile from "../../assets/emojis/smile.png";
 import love from "../../assets/emojis/love.png";
 
-const EachFeed = () => {
+const EachFeed = ({ feedImg }) => {
   const [toggleDetails, setToggleDetails] = useState(false);
   const [reaction, setReaction] = useState(false);
+  const [recGiven, setRecGiven] = useState(false);
+  const [givenEmo, setGivenEmo] = useState("");
 
   const showDetails = () => {
     setToggleDetails(true);
@@ -24,6 +26,13 @@ const EachFeed = () => {
   const toggleReaction = () => {
     setReaction(!reaction);
   };
+
+  const giveRec = emoji => {
+    setRecGiven(!recGiven);
+    setGivenEmo(emoji);
+    setReaction(!reaction);
+  };
+
   return (
     <Container
       onMouseEnter={showDetails}
@@ -31,20 +40,30 @@ const EachFeed = () => {
       toggle={toggleDetails}
     >
       <div className="img-wrapper">
-        <img src={meme} />
+        <img src={feedImg} />
       </div>
       <div className="overlay">
         <DetailsView
           image={boy}
           reaction={reaction}
           toggleReaction={toggleReaction}
+          givenEmo={givenEmo}
+          giveRec={emoji => giveRec(emoji)}
+          recGiven={recGiven}
         />
       </div>
     </Container>
   );
 };
 
-const DetailsView = ({ image, reaction, toggleReaction }) => (
+const DetailsView = ({
+  image,
+  reaction,
+  toggleReaction,
+  givenEmo,
+  giveRec,
+  recGiven
+}) => (
   <DetailsViewContainer>
     <h3>Let's go Stake!! </h3>
     <div className="author">
@@ -53,16 +72,23 @@ const DetailsView = ({ image, reaction, toggleReaction }) => (
     </div>
     {reaction ? (
       <div style={{ backgroundColor: "#ffffff" }}>
-          <img src={laugh} />
-        <img src={smile} />
-        <img src={sad} />
-        <img src={like} />
-        <img src={love} />
+        <img src={laugh} onClick={() => giveRec(laugh)} />
+        <img src={smile} onClick={() => giveRec(smile)} />
+        <img src={sad} onClick={() => giveRec(sad)} />
+        <img src={like} onClick={() => giveRec(like)} />
+        <img src={love} onClick={() => giveRec(love)} />
       </div>
     ) : (
       <div></div>
     )}
-    <button onClick={toggleReaction}> React </button>
+
+    {recGiven ? (
+      <div>
+        <img src={givenEmo} onClick={giveRec} />
+      </div>
+    ) : (
+      <button onClick={toggleReaction}> React </button>
+    )}
   </DetailsViewContainer>
 );
 
