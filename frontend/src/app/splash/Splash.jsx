@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import spinner from "../../assets/splash.gif";
 
+
 const Splash = ({ history }) => {
   useEffect(() => {
     setTimeout(
@@ -12,6 +13,7 @@ const Splash = ({ history }) => {
       false
     );
   }, []);
+ 
 
   return (
     <Container>
