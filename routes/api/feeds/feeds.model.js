@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const feedsSchema = mongoose.Schema(
   {
     image: {
@@ -7,7 +7,7 @@ const feedsSchema = mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true
     },
     title: {
@@ -29,7 +29,7 @@ const feedsSchema = mongoose.Schema(
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Feed'
+        ref: "Feed"
       }
     ]
   },
@@ -37,4 +37,4 @@ const feedsSchema = mongoose.Schema(
 );
 // feedsSchema.index({ title: 'text', category: 'text' });
 
-module.exports = Feed = mongoose.model('Feed', feedsSchema);
+module.exports = Feed = mongoose.model("Feed", feedsSchema);

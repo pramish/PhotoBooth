@@ -28,9 +28,12 @@ const Home = props => {
   const [profileClicked, setProfileClicked] = useState(false);
   const [feeds, setFeeds] = useState([]);
 
+  const skip = 0;
+  const limit = 3;
+
   useEffect(() => {
     axios
-      .get("http://localhost:5000/feeds")
+      .get(`http://localhost:5000/feeds?limit=${limit}&skip=${skip}`)
       .then(res => {
         console.log(res);
         setFeeds(res.data);
