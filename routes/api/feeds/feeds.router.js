@@ -10,7 +10,7 @@ router
   .route("/")
   .get(feedController.getAllFeeds)
   .post(
-    // passport.authenticate("jwt", { session: false }),
+    passport.authenticate("jwt", { session: false }),
     feedController.uploadImage,
     feedController.createFeed
   );
