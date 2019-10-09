@@ -5,12 +5,14 @@ const uuid = require("uuid/v4");
 
 const toggleEmoji = async (req, res, next) => {
   try {
+    // Get the feed by the param id
     const feed = await Feed.findById(req.params.id);
 
     // Check to see if user already emojify the feed
     if (
       feed.emoji.filter(emo => emo.user.toString() === req.user.id).length > 0
     ) {
+      // Search the emoji Id that is to be deleted
       let emojiId = feed.emoji.filter(emo => {
         if (emo.user.toString() === req.user.id) {
           return emo;
@@ -25,6 +27,7 @@ const toggleEmoji = async (req, res, next) => {
       //Splice comment out of that comments array
       feed.emoji.splice(removeIndex, 1);
 
+      // Update the new feed
       const updatedFeed = await Feed.findByIdAndUpdate(feed.id, feed, {
         new: true
       });
