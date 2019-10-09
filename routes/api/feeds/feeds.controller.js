@@ -18,7 +18,26 @@ const imgUploader = require("../../helpers/imgUploader");
 let placeholder =
   "https://dailybodyrestore.com/wp-content/uploads/2015/12/placeholder-image-800x800.gif";
 
-const getAllFeeds = getAll(Feed);
+// Pagination code is highly inspired by youtube channel "Coding Garden with CJ" https://www.youtube.com/watch?v=_mwQR2lF6qc&t=4402s
+const getAllFeeds = async (req, res, next) => {
+  // Get query params
+  let skip = Number(req.query.skip) || 0;
+  let limit = Number(req.query.limit) || 10;
+  console.log("Skip", skip, "Limit", limit);
+
+  // Pass skip and limit to the find query
+  try {
+    let feeds = await Feed.find({})
+      .skip(skip)
+      .limit(limit)
+      .sort("-createdAt");
+
+    // send res back
+    res.status(201).json(feeds);
+  } catch (error) {
+    res.status(501).json(error);
+  }
+};
 
 const getOneFeed = getOne(Feed);
 
