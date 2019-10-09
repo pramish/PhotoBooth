@@ -35,7 +35,7 @@ const toggleEmoji = async (req, res, next) => {
       // Create new emoji
       const newEmoji = {
         id: uuid(),
-        emojiType: "haha",
+        emojiType: req.body.type,
         user: req.user.id
       };
 

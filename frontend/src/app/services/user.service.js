@@ -27,6 +27,6 @@ function signOut(token) {
   }
 }
 
-function addEmoji(id , emoji) {
-  return axios.post("http://localhost:5000/feeds/emoji/"+ id);
+function addEmoji(id , data) {
+  return axios.post("http://localhost:5000/feeds/emoji/"+ id, data);
 }

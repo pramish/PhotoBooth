@@ -29,13 +29,16 @@ const EachFeed = ({ feedImg, feedId }) => {
     setReaction(!reaction);
   };
 
-  const giveRec = emoji => {
+  const giveRec = (emoji , type) => {
+    const data = {
+      type: type
+    }
     setRecGiven(!recGiven);
     if (emoji && emoji === givenEmo){
-      userService.addEmoji(feedId, emoji).then(res => console.log("old emo:" + res.data));
+      userService.addEmoji(feedId, data).then(res => console.log("old emo:" + res.data));
     }
     setGivenEmo(emoji);
-    userService.addEmoji(feedId, emoji).then (res => console.log(res.data));
+    userService.addEmoji(feedId, data).then (res => console.log(res.data));
     setReaction(!reaction);
 
 
@@ -56,7 +59,7 @@ const EachFeed = ({ feedImg, feedId }) => {
           reaction={reaction}
           toggleReaction={toggleReaction}
           givenEmo={givenEmo}
-          giveRec={emoji => giveRec(emoji)}
+          giveRec={(emoji,type) => giveRec(emoji,type)}
           recGiven={recGiven}
         />
       </div>
@@ -80,11 +83,11 @@ const DetailsView = ({
     </div>
     {reaction ? (
       <div style={{ backgroundColor: "#ffffff" }}>
-        <img src={laugh} onClick={() => giveRec(laugh)} />
-        <img src={smile} onClick={() => giveRec(smile)} />
-        <img src={sad} onClick={() => giveRec(sad)} />
-        <img src={like} onClick={() => giveRec(like)} />
-        <img src={love} onClick={() => giveRec(love)} />
+        <img src={laugh} onClick={() => giveRec(laugh,"laugh")} />
+        <img src={smile} onClick={() => giveRec(smile,"smile")} />
+        <img src={sad} onClick={() => giveRec(sad,"sad")} />
+        <img src={like} onClick={() => giveRec(like,"like")} />
+        <img src={love} onClick={() => giveRec(love,"love")} />
       </div>
     ) : (
       <div></div>
