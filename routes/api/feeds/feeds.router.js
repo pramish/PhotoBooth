@@ -32,7 +32,7 @@ router
     feedController.deleteOneFeed
   );
 
-router.route('/:hello').post(feedController.countViews);
+router.route('/:imageId').post(feedController.countViews);
 
 router.use('/comment', commentRouter);
 router.use('/emoji', emojiRouter);

@@ -40,7 +40,7 @@ const getAllFeeds = async (req, res, next) => {
 
 const countViews = async (req, res) => {
   try {
-    let imageToCount = req.params.hello;
+    let imageToCount = req.params.imageId;
     console.log(imageToCount);
     
     const feed = await Feed.findById(imageToCount);
