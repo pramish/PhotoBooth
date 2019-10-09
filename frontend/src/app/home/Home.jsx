@@ -27,9 +27,10 @@ const Home = props => {
   const [open, setOpen] = useState(false);
   const [profileClicked, setProfileClicked] = useState(false);
   const [feeds, setFeeds] = useState([]);
+  const [popularlySortedFeeds, setSortedFeeds] = useState([]);
 
   const skip = 0;
-  const limit = 3;
+  const limit = 10;
 
   useEffect(() => {
     axios
@@ -42,6 +43,15 @@ const Home = props => {
         console.log(err);
       });
   }, []);
+
+  const sortByPopularity = () => {
+    console.log(feeds);
+    console.log(feeds[0].views);
+    feeds.sort((a, b) => b.views - a.views);
+    console.log(feeds);
+    setFeeds(feeds);
+    props.history.push("/home");
+  };
 
   const toggleSignIn = () => {
     setProfileClicked(!profileClicked);
@@ -104,6 +114,7 @@ const Home = props => {
         {feeds.map(feed => (
           <EachFeed feedImg={feed.image} feedId={feed._id} />
         ))}
+        <button onClick={sortByPopularity}>SORT</button>
       </div>
       <div className="side-artist">
         <div>
