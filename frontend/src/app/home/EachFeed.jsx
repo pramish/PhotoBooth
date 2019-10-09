@@ -36,16 +36,9 @@ const EachFeed = ({ feed, history }) => {
   };
 
   return (
-    <Container
-      className="ui card eachfeed"
-      onClick={() => history.push(`/feed/${feed._id}`)}
-    >
-      <div className="content">
-        <div className="right floated meta">14h</div>
-        <img className="ui avatar image" src={boy} />
-        Elliot
-      </div>
-      <div className="image">
+    <Container className="ui card eachfeed">
+      <div className="content"></div>
+      <div className="image" onClick={() => history.push(`/feed/${feed._id}`)}>
         <img src={feed.image} />
       </div>
       <div className="extra content">
@@ -55,8 +48,14 @@ const EachFeed = ({ feed, history }) => {
       </div>
       <div className="content">
         <span className="right floated">
-          <i className="heart outline like icon"></i>
-          17 likes
+          <DetailsView
+            image={boy}
+            reaction={reaction}
+            toggleReaction={toggleReaction}
+            givenEmo={givenEmo}
+            giveRec={(emoji, type) => giveRec(emoji, type)}
+            recGiven={recGiven}
+          />
         </span>
         <i className="comment icon"></i>3 comments
       </div>
@@ -64,72 +63,62 @@ const EachFeed = ({ feed, history }) => {
   );
 };
 
-// const DetailsView = ({
-//   image,
-//   reaction,
-//   toggleReaction,
-//   givenEmo,
-//   giveRec,
-//   recGiven
-// }) => (
-//   <DetailsViewContainer>
-//     <h3>Let's go Stake!! </h3>
-//     <div classNameName="author">
-//       <img src={image} />
-//       <p>IoanMack</p>
-//     </div>
-//     {reaction ? (
-//       <div style={{ backgroundColor: "#ffffff" }}>
-//         <img src={laugh} onClick={() => giveRec(laugh)} />
-//         <img src={smile} onClick={() => giveRec(smile)} />
-//         <img src={sad} onClick={() => giveRec(sad)} />
-//         <img src={like} onClick={() => giveRec(like)} />
-//         <img src={love} onClick={() => giveRec(love)} />
-//       </div>
-//     ) : (
-//       <div></div>
-//     )}
-
-//     {recGiven ? (
-//       <div>
-//         <img src={givenEmo} onClick={giveRec} />
-//       </div>
-//     ) : (
-//       <button onClick={toggleReaction}> React </button>
-//     )}
-//   </DetailsViewContainer>
-// );
-
 export default EachFeed;
 
-const DetailsViewContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-  margin-left: 1rem;
-  margin-top: 0.4em;
+const DetailsView = ({
+  image,
+  reaction,
+  toggleReaction,
+  givenEmo,
+  giveRec,
+  recGiven
+}) => (
+  <div>
+    {reaction ? (
+      <div style={{ backgroundColor: "#ffffff" }}>
+        <img
+          style={{ width: "2rem", height: "2rem" }}
+          src={laugh}
+          onClick={() => giveRec(laugh, "laugh")}
+        />
+        <img
+          style={{ width: "2rem", height: "2rem" }}
+          src={smile}
+          onClick={() => giveRec(smile, "smile")}
+        />
+        <img
+          style={{ width: "2rem", height: "2rem" }}
+          src={sad}
+          onClick={() => giveRec(sad, "sad")}
+        />
+        <img
+          style={{ width: "2rem", height: "2rem" }}
+          src={like}
+          onClick={() => giveRec(like, "like")}
+        />
+        <img
+          style={{ width: "2rem", height: "2rem" }}
+          src={love}
+          onClick={() => giveRec(love, "love")}
+        />
+      </div>
+    ) : (
+      <div></div>
+    )}
 
-  h3 {
-    margin: 0;
-  }
-  .author {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: row;
-    align-items: center;
-    p {
-      margin-left: 0.7rem;
-    }
-  }
-  img {
-    height: 2em;
-    width: 2em;
-    &:hover {
-      background: black;
-    }
-  }
-`;
+    {recGiven ? (
+      <div>
+        <img
+          style={{ width: "2rem", height: "2rem" }}
+          src={givenEmo}
+          onClick={giveRec}
+        />
+      </div>
+    ) : (
+      <button onClick={toggleReaction}> React </button>
+    )}
+  </div>
+);
 
 const Container = styled.div`
 color: black;

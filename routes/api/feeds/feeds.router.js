@@ -3,7 +3,7 @@ const passport = require("passport");
 const feedController = require("./feeds.controller");
 const commentRouter = require("../comment/comment.router");
 const emojiRouter = require("../emoji/emoji.router");
-
+const Feed = require("./feeds.model");
 const router = express.Router();
 
 router
@@ -30,6 +30,12 @@ router
     feedController.checkDeletionCriteria,
     feedController.deleteOneFeed
   );
+// router.route("/findByUserId/:id").get(async (req, res, next) => {
+//   console.log(req.params.id);
+
+//   let feeds = await Feed.find({ user: req.params.id });
+//   res.json(feeds);
+// });
 
 router.use("/comment", commentRouter);
 router.use("/emoji", emojiRouter);

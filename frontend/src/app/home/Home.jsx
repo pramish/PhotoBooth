@@ -29,10 +29,6 @@ const Home = props => {
       .catch(err => {
         console.log(err);
       });
-    const token = localStorage.getItem("userToken");
-    if (token) {
-      dispatch(SetLoggedInUser(jwt.decode(token)));
-    }
   }, []);
 
   const handleAddClick = () => {

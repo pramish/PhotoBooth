@@ -6,7 +6,7 @@ import SignIn from "../home/SignIn";
 import SetLoggedInUser from "../helpers/actions/login.action";
 import jwt from "jsonwebtoken";
 import RegistrationModal from "./RegistrationModal";
-import { Menu, Segment } from "semantic-ui-react";
+import { Menu, Segment, Button } from "semantic-ui-react";
 import AddImageModel from "./AddImageModel";
 
 const Navbar = props => {
@@ -19,6 +19,7 @@ const Navbar = props => {
         <Menu inverted secondary>
           <Menu.Item name="Photobooth" />
           <Menu.Item position="right">
+            {/* {isAuthenticated ? <Button>Admin</Button> : ""} */}
             {isAuthenticated ? <AddImageModel /> : ""}
             <RegistrationModal />
           </Menu.Item>
@@ -36,6 +37,7 @@ const Container = styled.div`
   max-width: 100vw;
   min-width: 100vw;
   width: 100%;
+  z-index: 1;
   top: 0;
   .ui {
     &.inverted {

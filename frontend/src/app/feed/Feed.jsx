@@ -12,29 +12,72 @@ import {
   Button,
   Grid,
   Header,
-  Form
+  Form,
+  Message
 } from "semantic-ui-react";
-import axios from "axios";
+import Axios from "axios";
 
 const Feed = props => {
   const [fetching, setFetching] = useState(true);
   const [feed, setFeed] = useState({});
+  let id = props.match.params.id;
+  const [errorMsg, setErrorMsg] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [comments, setComments] = useState([]);
 
-  console.log(props.match.params.id);
+  const postHandler = async () => {
+    let formData = new FormData();
+    formData.append("myImg", image);
+
+    setUploading(true);
+    let res = await Axios.post(
+      `http://localhost:5000/feeds/comment/${id}`,
+      formData
+    );
+
+    if (res.data.errMsg) {
+      setErrorMsg(res.data.errMsg);
+    }
+    setUploading(false);
+    props.history.replace(`/feed/${id}`);
+  };
+
+  const chooseBtnClickHandler = async () => {
+    document.getElementById("btnClickForImageUploader").click();
+  };
+  const fileChangedHandler = e => {
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      setImage(file);
+      setImageUrl(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/feeds/${props.match.params.id}`)
-      .then(res => {
-        setFeed(res.data);
-        setFetching(false);
-      });
+    Axios.get(`http://localhost:5000/feeds/${id}`).then(res => {
+      setFeed(res.data);
+      if (res.data.comments.length > 0) {
+        setComments(res.data.comments);
+        console.log(res.data.comments);
+      }
+      setFetching(false);
+    });
   }, []);
   return (
     <FeedContainer>
       <Navbar history={props.history} />
       <div
-        style={{ marginBottom: "1rem" }}
+        style={{
+          marginBottom: "1rem",
+          position: "fixed",
+          top: "7rem",
+          left: "0.5rem",
+          zIndex: "1"
+        }}
         onClick={() => props.history.push("/home")}
       >
         <Button>
@@ -42,7 +85,96 @@ const Feed = props => {
           Go Back
         </Button>
       </div>
-      {fetching ? <Loader size="large">Loading</Loader> : getFeed(feed)}
+      {fetching ? (
+        <Loader size="large">Loading</Loader>
+      ) : (
+        <div>
+          <Grid divided="vertically">
+            <Grid.Row columns={2}>
+              <Grid.Column>
+                <div className="left-img">
+                  <Image src={feed.image} wrapped ui={false} />
+                </div>
+              </Grid.Column>
+              <Grid.Column>
+                <div className="comments">
+                  <Comment.Group>
+                    <Header as="h3" dividing>
+                      Comments
+                    </Header>
+                    {/* TODO:Comments here */}
+                    {comments.map(comment => (
+                      <Comment>
+                        <Comment.Content>
+                          <Comment.Author as="a">
+                            Author Name Here
+                          </Comment.Author>
+                          <Comment.Metadata>
+                            <div>{comment.createdAt}</div>
+                          </Comment.Metadata>
+                          <img
+                            src={comment.image}
+                            style={{ height: "16rem", width: "auto" }}
+                          />
+                          {/* <Comment.Actions>
+                            <Comment.Action>Reply</Comment.Action>
+                          </Comment.Actions> */}
+                        </Comment.Content>
+                      </Comment>
+                    ))}
+
+                    <Form reply>
+                      <input
+                        style={{ display: "none" }}
+                        type="file"
+                        name="image"
+                        id="btnClickForImageUploader"
+                        onChange={fileChangedHandler}
+                      />
+                      {imageUrl ? (
+                        <img
+                          style={{ height: "16rem", width: "auto" }}
+                          src={imageUrl}
+                        />
+                      ) : (
+                        ""
+                      )}
+                      <br />
+                      {uploading ? (
+                        <>
+                          <Message icon>
+                            <Icon name="circle notched" loading />
+                            <Message.Content>
+                              <Message.Header>Just one second</Message.Header>
+                              We are uploading that content for you.
+                            </Message.Content>
+                          </Message>
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            onClick={chooseBtnClickHandler}
+                            content="Choose Image"
+                            labelPosition="left"
+                          />
+                          <br />
+                          <Button
+                            onClick={postHandler}
+                            content="Post Comment"
+                            labelPosition="left"
+                            icon="edit"
+                            primary
+                          />
+                        </>
+                      )}
+                    </Form>
+                  </Comment.Group>
+                </div>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </div>
+      )}
     </FeedContainer>
   );
 };
@@ -50,98 +182,20 @@ const Feed = props => {
 const FeedContainer = styled.div`
   .left-img {
     position: fixed;
-    margin-top: 1.2rem;
+    margin-top: 11rem;
+    max-width: 50vw;
+    min-width: 50vw;
+    width: 100%;
+    margin-left: 3rem;
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+  .comments {
+    margin-left: 2rem;
+    margin-top: 6rem;
   }
 `;
-
-const getFeed = feed => (
-  <div>
-    <Grid divided="vertically">
-      <Grid.Row columns={2}>
-        <Grid.Column>
-          <div className="left-img">
-            <Image src={feed.image} wrapped ui={false} />
-          </div>
-        </Grid.Column>
-        <Grid.Column>
-          {getComments()}
-          {getComments()}
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
-  </div>
-);
-
-const getComments = () => (
-  <Comment.Group>
-    <Header as="h3" dividing>
-      Comments
-    </Header>
-
-    <Comment>
-      {/* <Comment.Avatar src="/images/avatar/small/matt.jpg" /> */}
-      <Comment.Content>
-        <Comment.Author as="a">Matt</Comment.Author>
-        <Comment.Metadata>
-          <div>Today at 5:42PM</div>
-        </Comment.Metadata>
-        <Comment.Text>How artistic!</Comment.Text>
-        <Comment.Actions>
-          <Comment.Action>Reply</Comment.Action>
-        </Comment.Actions>
-      </Comment.Content>
-    </Comment>
-
-    <Comment>
-      {/* <Comment.Avatar src="/images/avatar/small/elliot.jpg" /> */}
-      <Comment.Content>
-        <Comment.Author as="a">Elliot Fu</Comment.Author>
-        <Comment.Metadata>
-          <div>Yesterday at 12:30AM</div>
-        </Comment.Metadata>
-        <Comment.Text>
-          <p>This has been very useful for my research. Thanks as well!</p>
-        </Comment.Text>
-        <Comment.Actions>
-          <Comment.Action>Reply</Comment.Action>
-        </Comment.Actions>
-      </Comment.Content>
-      <Comment.Group>
-        <Comment>
-          {/* <Comment.Avatar src="/images/avatar/small/jenny.jpg" /> */}
-          <Comment.Content>
-            <Comment.Author as="a">Jenny Hess</Comment.Author>
-            <Comment.Metadata>
-              <div>Just now</div>
-            </Comment.Metadata>
-            <Comment.Text>Elliot you are always so right :)</Comment.Text>
-            <Comment.Actions>
-              <Comment.Action>Reply</Comment.Action>
-            </Comment.Actions>
-          </Comment.Content>
-        </Comment>
-      </Comment.Group>
-    </Comment>
-
-    <Comment>
-      {/* <Comment.Avatar src="/images/avatar/small/joe.jpg" /> */}
-      <Comment.Content>
-        <Comment.Author as="a">Joe Henderson</Comment.Author>
-        <Comment.Metadata>
-          <div>5 days ago</div>
-        </Comment.Metadata>
-        <Comment.Text>Dude, this is awesome. Thanks so much</Comment.Text>
-        <Comment.Actions>
-          <Comment.Action>Reply</Comment.Action>
-        </Comment.Actions>
-      </Comment.Content>
-    </Comment>
-
-    <Form reply>
-      <Form.TextArea />
-      <Button content="Add Reply" labelPosition="left" icon="edit" primary />
-    </Form>
-  </Comment.Group>
-);
 
 export default Feed;
