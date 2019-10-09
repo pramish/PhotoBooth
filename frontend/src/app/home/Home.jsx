@@ -38,7 +38,7 @@ const Home = props => {
       .catch(err => {
         console.log(err);
       });
-  });
+  }, []);
 
   const toggleSignIn = () => {
     setProfileClicked(!profileClicked);
@@ -99,7 +99,7 @@ const Home = props => {
       <div className="main-feeds">
         <CustomModel open={open} handleClose={handleClose} />
         {feeds.map(feed => (
-          <EachFeed feedImg={feed.image} />
+          <EachFeed feedImg={feed.image} feedId={feed._id} />
         ))}
       </div>
       <div className="side-artist">

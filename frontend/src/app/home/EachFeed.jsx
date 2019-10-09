@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { userService } from "../services/user.service";
+
 
 import meme from "../../assets/meme.jpg";
 import boy from "../../assets/default-round.png";
@@ -9,7 +11,7 @@ import sad from "../../assets/emojis/sad.png";
 import smile from "../../assets/emojis/smile.png";
 import love from "../../assets/emojis/love.png";
 
-const EachFeed = ({ feedImg }) => {
+const EachFeed = ({ feedImg, feedId }) => {
   const [toggleDetails, setToggleDetails] = useState(false);
   const [reaction, setReaction] = useState(false);
   const [recGiven, setRecGiven] = useState(false);
@@ -29,8 +31,14 @@ const EachFeed = ({ feedImg }) => {
 
   const giveRec = emoji => {
     setRecGiven(!recGiven);
+    if (emoji && emoji === givenEmo){
+      userService.addEmoji(feedId, emoji).then(res => console.log("old emo:" + res.data));
+    }
     setGivenEmo(emoji);
+    userService.addEmoji(feedId, emoji).then (res => console.log(res.data));
     setReaction(!reaction);
+
+
   };
 
   return (
