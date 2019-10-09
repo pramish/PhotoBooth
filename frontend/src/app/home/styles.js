@@ -1,5 +1,5 @@
 import styled from "styled-components";
-export const Container = styled.div`
+export const HomeContainer = styled.div`
   display: grid;
   grid-template-columns: 15% 35% 40% 10%;
   grid-auto-rows: minmax(10px, auto);

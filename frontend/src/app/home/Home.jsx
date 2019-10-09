@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import {
   MdHome,
   MdSearch,
@@ -10,11 +9,10 @@ import {
 } from "react-icons/md";
 import { DiCodeigniter } from "react-icons/di";
 
-import { Fab, Fade, Modal, Backdrop, makeStyles } from "@material-ui/core";
+import { Fab } from "@material-ui/core";
 
 import defaultImg from "../../assets/default-girl.png";
 
-import AddImageForm from "./components/AddImageForm";
 import EachFeed from "./EachFeed";
 import Categories from "./components/Categories";
 import SignIn from "./SignIn";
@@ -22,6 +20,8 @@ import { useDispatch } from "react-redux";
 import jwt from "jsonwebtoken";
 import SetLoggedInUser from "../helpers/actions/login.action";
 import axios from "axios";
+import { HomeContainer } from "./styles";
+import { CustomModel } from "./components/CustomModel";
 
 const Home = props => {
   const [open, setOpen] = useState(false);
@@ -62,7 +62,7 @@ const Home = props => {
   }
 
   return (
-    <Container>
+    <HomeContainer>
       <div className="title">
         <h4>Photobooth</h4>
       </div>
@@ -123,7 +123,7 @@ const Home = props => {
           </div>
         </div>
       </div>
-    </Container>
+    </HomeContainer>
   );
 };
 export default Home;
