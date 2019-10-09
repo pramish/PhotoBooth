@@ -73,7 +73,7 @@ const Home = props => {
     <HomeContainer>
       <Navbar history={props.history} />
 
-      <div style={{ marginTop: "4rem" }}>
+      <div style={{ marginTop: "5rem" }}>
         <Button onClick={handleTrending}>Trending Posts</Button>
         <Button onClick={sortByPopularity}>Popular on Views</Button>
       </div>
