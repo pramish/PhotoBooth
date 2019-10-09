@@ -37,11 +37,11 @@ const EachFeed = ({ feed, history }) => {
     setRecGiven(!recGiven);
     if (emoji && emoji === givenEmo) {
       userService
-        .addEmoji(feedId, data)
+        .addEmoji(feed._id, data)
         .then(res => console.log("old emo:" + res.data));
     }
     setGivenEmo(emoji);
-    userService.addEmoji(feedId, data).then(res => console.log(res.data));
+    userService.addEmoji(feed._id, data).then(res => console.log(res.data));
     setReaction(!reaction);
   };
 

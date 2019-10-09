@@ -24,7 +24,7 @@ const Home = props => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/feeds?limit=${limit}&skip=${skip}`)
+      .get(`/feeds?limit=${limit}&skip=${skip}`)
       .then(res => {
         console.log(res);
         setFeeds(res.data);
@@ -44,13 +44,6 @@ const Home = props => {
     props.history.push("/home");
   };
 
-  const toggleSignIn = () => {
-    setProfileClicked(!profileClicked);
-  };
-
-  const handleAddClick = () => {
-    handleOpen();
-  };
   const handleOpen = () => {
     setOpen(true);
   };

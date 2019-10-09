@@ -9,7 +9,7 @@ const Admin = props => {
   const [loading, setLoading] = useState(true);
   const userId = user._id;
   useEffect(() => {
-    Axios.get(`http://localhost:5000/feeds/findByUserId/${userId}`).then(
+    Axios.get(`/feeds/findByUserId/${userId}`).then(
       res => {
         console.log(res.data);
         setLoading(false);

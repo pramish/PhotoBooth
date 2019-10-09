@@ -20,7 +20,7 @@ const AddImageForm = () => {
   const postHandler = async () => {
     let formData = new FormData();
     formData.append('myImg', image);
-    let res = await Axios.post('http://localhost:5000/feeds', formData);
+    let res = await Axios.post('/feeds', formData);
     console.log(res);
   };
 
