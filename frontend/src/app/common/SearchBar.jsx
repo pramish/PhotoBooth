@@ -1,14 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
-import { MdSearch } from 'react-icons/md';
+import React from "react";
+import styled from "styled-components";
+import { MdSearch } from "react-icons/md";
 
 const SearchBar = () => (
   <Container>
     <MdSearch
-      size='1.2rem'
-      style={{ position: 'absolute', color: 'black', top: '27px' }}
+      size="1.2rem"
+      style={{ position: "absolute", color: "black", top: "27px" }}
     />
-    <input placeholder='Search' />
+    <input placeholder="Search" />
   </Container>
 );
 export default SearchBar;
