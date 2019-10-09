@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import defaultImg from "../../assets/default-round.png";
-import { MdHome, MdSearch, MdFormatListBulleted } from "react-icons/md";
-import SearchBar from "./SearchBar";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import defaultImg from '../../assets/default-round.png';
+import { MdHome, MdSearch, MdFormatListBulleted } from 'react-icons/md';
+import SearchBar from './SearchBar';
 
 const Navbar = ({ onClickHandler }) => {
   const [searchClick, setSearchClick] = useState(false);
