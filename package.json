@@ -38,6 +38,7 @@
     "passport-jwt": "^4.0.0",
     "react-images-upload": "^1.2.7",
     "underscore": "^1.9.1",
+    "uuid": "^3.3.3",
     "validator": "^11.1.0"
   },
   "devDependencies": {

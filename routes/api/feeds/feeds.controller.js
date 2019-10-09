@@ -1,7 +1,6 @@
 const vision = require("@google-cloud/vision");
 const client = new vision.ImageAnnotatorClient();
 const cloudinary = require("cloudinary").v2;
-const Tesseract = require("tesseract.js");
 
 require("dotenv").config();
 

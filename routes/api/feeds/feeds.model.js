@@ -21,12 +21,10 @@ const feedsSchema = mongoose.Schema(
       type: Boolean,
       default: true
     },
-    emoji: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Emoji"
-      }
-    ],
+    emoji: {
+      type: Array,
+      required: false
+    },
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,

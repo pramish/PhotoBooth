@@ -2,7 +2,7 @@ const User = require("./users.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const registerValidation = require("../../../utils/validation/register.validation");
-const loginValidation = require("../../../utils/validation/login.validation");
+// const loginValidation = require("../../../utils/validation/login.validation");
 
 //@routes POST api/users/register
 //@desc Register user
@@ -45,10 +45,10 @@ const createUser = async (req, res, next) => {
 // @access Public
 const authenticateUser = async (req, res, next) => {
   try {
-    const { errors, isValid } = loginValidation(req.body);
-    if (!isValid) {
-      return res.status(400).json(errors);
-    }
+    // const { errors, isValid } = loginValidation(req.body);
+    // if (!isValid) {
+    //   return res.status(400).json(errors);
+    // }
 
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
