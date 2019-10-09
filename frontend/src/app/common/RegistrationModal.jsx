@@ -52,9 +52,12 @@ const SignIn = ({ signUpBtnClick }) => {
       password: password,
       password2: confirmPassword
     };
-    userService.signup(user).then(res => {
-      //   history.push("/");
-    });
+    userService
+      .signup(user)
+      .then(res => {
+        //   history.push("/");
+      })
+      .catch(err => setErrors(err.response.data));
   };
 
   const logout = () => {
@@ -73,9 +76,19 @@ const SignIn = ({ signUpBtnClick }) => {
               <input type="text" placeholder="Full Name" id="Full name" />
             </Form.Field>
             <Form.Field>
+              {errors.email ? (
+                <span style={{ color: "#ff0000" }}>{errors.email}</span>
+              ) : (
+                <div></div>
+              )}
               <input type="text" placeholder="Email" id="SignUpEmail" />
             </Form.Field>
             <Form.Field>
+              {errors.password ? (
+                <span style={{ color: "#ff0000" }}>{errors.password}</span>
+              ) : (
+                <div></div>
+              )}
               <input type="password" placeholder="Password" id="SignUpPass" />
             </Form.Field>
             <Form.Field>
@@ -97,11 +110,19 @@ const SignIn = ({ signUpBtnClick }) => {
         return (
           <Form>
             <Form.Field>
-              {errors.email ? <span>{errors.email}</span> : <div></div>}
+              {errors.email ? (
+                <span style={{ color: "#ff0000" }}>{errors.email}</span>
+              ) : (
+                <div></div>
+              )}
               <input type="text" placeholder="Email" id="SignInEmail" />
             </Form.Field>
             <Form.Field>
-              {errors.password ? <span>{errors.password}</span> : <div></div>}
+              {errors.password ? (
+                <span style={{ color: "#ff0000" }}>{errors.password}</span>
+              ) : (
+                <div></div>
+              )}
               <input type="password" placeholder="Password" id="SignInPass" />
             </Form.Field>
             <Button primary onClick={signInClick}>
