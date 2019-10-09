@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import {
   MdHome,
@@ -18,10 +18,27 @@ import AddImageForm from "./components/AddImageForm";
 import EachFeed from "./EachFeed";
 import Categories from "./components/Categories";
 import SignIn from "./SignIn";
+import { useDispatch } from "react-redux";
+import jwt from "jsonwebtoken";
+import SetLoggedInUser from "../helpers/actions/login.action";
+import axios from "axios";
 
-const Home = () => {
+const Home = props => {
   const [open, setOpen] = useState(false);
   const [profileClicked, setProfileClicked] = useState(false);
+  const [feeds, setFeeds] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/feeds")
+      .then(res => {
+        console.log(res);
+        setFeeds(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
 
   const toggleSignIn = () => {
     setProfileClicked(!profileClicked);
@@ -37,6 +54,12 @@ const Home = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const dispatch = useDispatch();
+
+  const token = localStorage.getItem("userToken");
+  if (token) {
+    dispatch(SetLoggedInUser(jwt.decode(token)));
+  }
 
   return (
     <Container>
@@ -55,7 +78,7 @@ const Home = () => {
       <div className="profile">
         <div>
           <img src={defaultImg} onClick={toggleSignIn} />
-          <SignIn profileClicked={profileClicked} />
+          <SignIn profileClicked={profileClicked} history={props.history} />
         </div>
       </div>
       <div className="side-categories">
@@ -75,16 +98,9 @@ const Home = () => {
       </div>
       <div className="main-feeds">
         <CustomModel open={open} handleClose={handleClose} />
-        <EachFeed />
-        <EachFeed />
-        <EachFeed />
-        <EachFeed />
-        <EachFeed />
-        <EachFeed />
-        <EachFeed />
-        <EachFeed />
-        <EachFeed />
-        <EachFeed />
+        {feeds.map(feed => (
+          <EachFeed feedImg={feed.image} />
+        ))}
       </div>
       <div className="side-artist">
         <div>

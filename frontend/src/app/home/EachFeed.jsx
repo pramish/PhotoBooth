@@ -9,7 +9,7 @@ import sad from "../../assets/emojis/sad.png";
 import smile from "../../assets/emojis/smile.png";
 import love from "../../assets/emojis/love.png";
 
-const EachFeed = () => {
+const EachFeed = ({feedImg}) => {
   const [toggleDetails, setToggleDetails] = useState(false);
   const [reaction, setReaction] = useState(false);
 
@@ -31,7 +31,7 @@ const EachFeed = () => {
       toggle={toggleDetails}
     >
       <div className="img-wrapper">
-        <img src={meme} />
+        <img src={feedImg} />
       </div>
       <div className="overlay">
         <DetailsView
