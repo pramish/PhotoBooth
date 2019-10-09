@@ -1,6 +1,6 @@
 const vision = require("@google-cloud/vision");
 const client = new vision.ImageAnnotatorClient();
-const cloudinary = require("cloudinary").v2;
+const cloudinary = require('cloudinary').v2;
 
 require("dotenv").config();
 
@@ -29,13 +29,30 @@ const getAllFeeds = async (req, res, next) => {
     let feeds = await Feed.find({})
       .skip(skip)
       .limit(limit)
-      .sort("-createdAt");
+      .sort('-createdAt');
 
     // send res back
     res.status(201).json(feeds);
   } catch (error) {
     res.status(501).json(error);
   }
+};
+
+const countViews = async (req, res) => {
+  try {
+    let imageToCount = req.params.id;
+    const feed = await Feed.findById(imageToCount);
+    const views = feed.views;
+    // const feed = await Feed.findById(id);
+    // feed.image = placeholder;
+    // const updatedFeed = await Feed.findByIdAndUpdate(feed.id, feed
+    const updateViewFeed = await Feed.findByIdAndUpdate(feed.id, {
+      views: views + 1
+    });
+    res.json({
+      updatedFeed: feed
+    });
+  } catch (error) {}
 };
 
 const getOneFeed = getOne(Feed);
@@ -118,7 +135,7 @@ const uploadImage = async (req, res, next) => {
     // Set initial views to 0
     req.body.views = 0;
     //get the title of the feeds
-    req.body.title = req.body.title
+    req.body.title = req.body.title;
     // Send the respose to next middleware
     next();
   } catch (error) {
@@ -191,5 +208,6 @@ module.exports = {
   uploadImage,
   isRightUser,
   checkDeletionCriteria,
-  updateOneFeed
+  updateOneFeed,
+  countViews
 };

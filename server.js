@@ -1,21 +1,22 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const passport = require("passport");
-const cors = require("cors");
-const fileupload = require("express-fileupload");
+const express = require('express');
+const bodyParser = require('body-parser');
+const passport = require('passport');
+const cors = require('cors');
+const fileupload = require('express-fileupload');
 
 
-require("dotenv").config();
+require('dotenv').config();
 
-const connect = require("./config/db");
-const router = require("./routes");
+const connect = require('./config/db');
+const router = require('./routes');
 
-require("./services/cloudinary");
-require("./config/passport")(passport);
+require('./services/cloudinary');
+require('./config/passport')(passport);
 
 const app = express();
 // Connects to MongoDB
 connect();
+
 
 app.use(cors());
 
@@ -28,7 +29,7 @@ app.use(
 app.use(
   fileupload({
     useTempFiles: true,
-    tempFileDir: "/tmp/"
+    tempFileDir: '/tmp/'
   })
 );
 
@@ -36,11 +37,11 @@ app.use(bodyParser.json());
 
 app.use(passport.initialize());
 
-app.use("/", router);
+app.use('/', router);
 
 // Assume 404 since no routes and middlewares responded
 app.use((req, res, next) => {
-  console.log("error (404)");
+  console.log('error (404)');
   res.json({ Error: 404 });
 });
 
