@@ -50,6 +50,17 @@ const Home = props => {
     props.history.push("/home");
   };
 
+  const mostPopularDiscussion = () => {
+    feeds.sort((a, b) => b.comments.length - a.comments.length);
+    console.log(feeds);
+
+    props.history.push("/home");
+  };
+
+  const handleAddClick = () => {
+    handleOpen();
+  };
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -61,6 +72,7 @@ const Home = props => {
   return (
     <HomeContainer>
       <Navbar history={props.history} />
+
       <div style={{ marginTop: "4rem" }}>
         <Button onClick={handleTrending}>Trending Posts</Button>
         <Button onClick={sortByPopularity}>Popular on Views</Button>
