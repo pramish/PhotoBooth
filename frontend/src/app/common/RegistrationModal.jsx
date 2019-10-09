@@ -9,7 +9,7 @@ import auth from "../helpers/auth/auth";
 const SignIn = ({ signUpBtnClick }) => {
   const [sign_in, setSign_inClicked] = useState(true);
   const [sign_up, setSign_upClicked] = useState(false);
-  const [errors, setErrors] = useState("");
+  const [errors, setErrors] = useState([]);
   const { isAuthenticated } = useSelector(state => state.auth);
 
   const dispatch = useDispatch();
@@ -28,11 +28,16 @@ const SignIn = ({ signUpBtnClick }) => {
       password: password
     };
 
-    userService.login(user).then(res => {
-      //   history.push("/");
-      console.log(user);
-      dispatch(SetLoggedInUser(jwt.decode(localStorage.getItem("userToken"))));
-    });
+    userService
+      .login(user)
+      .then(res => {
+        //   history.push("/");
+        console.log(user);
+        dispatch(
+          SetLoggedInUser(jwt.decode(localStorage.getItem("userToken")))
+        );
+      })
+      .catch(err => setErrors(err.response.data));
   };
 
   const signUpClick = () => {
@@ -92,9 +97,11 @@ const SignIn = ({ signUpBtnClick }) => {
         return (
           <Form>
             <Form.Field>
+              {errors.email ? <span>{errors.email}</span> : <div></div>}
               <input type="text" placeholder="Email" id="SignInEmail" />
             </Form.Field>
             <Form.Field>
+              {errors.password ? <span>{errors.password}</span> : <div></div>}
               <input type="password" placeholder="Password" id="SignInPass" />
             </Form.Field>
             <Button primary onClick={signInClick}>
