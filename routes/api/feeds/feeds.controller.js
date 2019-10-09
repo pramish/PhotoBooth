@@ -1,8 +1,8 @@
-const vision = require('@google-cloud/vision');
+const vision = require("@google-cloud/vision");
 const client = new vision.ImageAnnotatorClient();
 const cloudinary = require("cloudinary").v2;
 
-require('dotenv').config();
+require("dotenv").config();
 
 const {
   createOne,
@@ -10,18 +10,18 @@ const {
   deleteOne,
   getOne,
   getAll
-} = require('../../helpers/dbOperations');
-const Feed = require('./feeds.model');
-const User = require('../users/users.model');
-const imgUploader = require('../../helpers/imgUploader');
+} = require("../../helpers/dbOperations");
+const Feed = require("./feeds.model");
+const User = require("../users/users.model");
+const imgUploader = require("../../helpers/imgUploader");
 let placeholder =
-  'https://dailybodyrestore.com/wp-content/uploads/2015/12/placeholder-image-800x800.gif';
+  "https://dailybodyrestore.com/wp-content/uploads/2015/12/placeholder-image-800x800.gif";
 
 // Pagination code is highly inspired by youtube channel "Coding Garden with CJ" https://www.youtube.com/watch?v=_mwQR2lF6qc&t=4402s
 const getAllFeeds = async (req, res, next) => {
   // Get query params
   let skip = Number(req.query.skip) || 0;
-  let limit = Number(req.query.limit) || 10;
+  let limit = Number(req.query.limit) || 50;
   // console.log("Skip", skip, "Limit", limit);
 
   // Pass skip and limit to the find query
@@ -44,7 +44,7 @@ const createFeed = createOne(Feed);
 
 const updateOneFeed = async (req, res, next) => {
   let id = req.params.id;
-  console.log('Ako ho hya?', req.changeCriteria);
+  console.log("Ako ho hya?", req.changeCriteria);
   console.log(req.placeholder);
 
   if (req.changeCriteria) {
@@ -68,9 +68,9 @@ const deleteOneFeed = async (req, res, next) => {
   // let delCriteria = req.delCriteria;
   if (req.delCriteria) {
     let res = await Feed.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Successfully Deleted', response: res });
+    res.json({ message: "Successfully Deleted", response: res });
   } else {
-    res.json({ message: 'This feed cannot be deleted!' });
+    res.json({ message: "This feed cannot be deleted!" });
   }
 };
 
@@ -81,7 +81,7 @@ const isRightUser = async (req, res, next) => {
 
     // Check for post owner because we dont want anyone to delete post
     if (feed.user.toString() !== req.user.id) {
-      return res.status(401).json({ notauthorized: 'Use not authorized!' });
+      return res.status(401).json({ notauthorized: "Use not authorized!" });
     } else {
       next();
     }
@@ -100,7 +100,7 @@ const uploadImage = async (req, res, next) => {
       // delete that uploded image
       const destroyRes = await cloudinary.uploader.destroy(publicId);
       // send res
-      res.json({ errMsg: 'Text filled image cannot be uploaded!' });
+      res.json({ errMsg: "Text filled image cannot be uploaded!" });
     }
     // Check Adult Content
     const isAdult = await detectAdultConent(url);
@@ -108,7 +108,7 @@ const uploadImage = async (req, res, next) => {
       // delete that uploded image
       const destroyRes = await cloudinary.uploader.destroy(publicId);
       // send res
-      res.json({ errMsg: 'No Adult Content!' });
+      res.json({ errMsg: "No Adult Content!" });
     }
 
     req.body.image = url;
@@ -150,7 +150,7 @@ const checkDeletionCriteria = async (req, res, next) => {
       next();
     }
   } catch (err) {
-    res.status(501).json({ message: 'Error' });
+    res.status(501).json({ message: "Error" });
   }
 };
 
@@ -174,7 +174,7 @@ const detectAdultConent = async image => {
   // Performs safe search detection on the local file
   const [result] = await client.safeSearchDetection(image);
   const detections = result.safeSearchAnnotation;
-  if (detections.adult === 'VERY_LIKELY' || detections.adult === 'LIKELY') {
+  if (detections.adult === "VERY_LIKELY" || detections.adult === "LIKELY") {
     return true;
   } else {
     return false;

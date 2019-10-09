@@ -35,6 +35,13 @@ const Home = props => {
     }
   }, []);
 
+  const mostPopularDiscussion = () => {
+    feeds.sort((a, b) => b.comments.length - a.comments.length);
+    console.log(feeds);
+
+    props.history.push("/home");
+  };
+
   const handleAddClick = () => {
     handleOpen();
   };
@@ -49,6 +56,12 @@ const Home = props => {
   return (
     <HomeContainer>
       <Navbar history={props.history} />
+      <div
+        onClick={mostPopularDiscussion}
+        style={{ background: "black", width: "30rem", height: "30rem" }}
+      >
+        SORT
+      </div>
       <div className="main-feeds">
         {uploading ? (
           <Loader active inline="centered" />
