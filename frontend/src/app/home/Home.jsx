@@ -99,7 +99,7 @@ const Home = props => {
       <div className="main-feeds">
         <CustomModel open={open} handleClose={handleClose} />
         {feeds.map(feed => (
-          <EachFeed />
+          <EachFeed feedImg={feed.image} />
         ))}
       </div>
       <div className="side-artist">

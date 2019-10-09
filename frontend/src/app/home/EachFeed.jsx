@@ -22,7 +22,7 @@ const EachFeed = ({feedImg}) => {
       toggle={toggleDetails}
     >
       <div className="img-wrapper">
-        <img src={meme} />
+        <img src={feedImg} />
       </div>
       <div className="overlay">
         <DetailsView image={boy} />
