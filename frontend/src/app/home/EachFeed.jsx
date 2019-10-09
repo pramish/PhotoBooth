@@ -53,9 +53,7 @@ const DetailsView = ({ image, reaction, toggleReaction }) => (
     </div>
     {reaction ? (
       <div style={{ backgroundColor: "#ffffff" }}>
-        <div className="emoji">
           <img src={laugh} />
-        </div>
         <img src={smile} />
         <img src={sad} />
         <img src={like} />
@@ -93,9 +91,9 @@ const DetailsViewContainer = styled.div`
   img {
     height: 2em;
     width: 2em;
-  }
-  :hover .img {
-    background: black;
+    &:hover {
+      background: black;
+    }
   }
 `;
 
