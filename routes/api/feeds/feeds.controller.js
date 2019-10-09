@@ -40,13 +40,15 @@ const getAllFeeds = async (req, res, next) => {
 
 const countViews = async (req, res) => {
   try {
-    let imageToCount = req.params.id;
+    let imageToCount = req.params.hello;
+    console.log(imageToCount);
+    
     const feed = await Feed.findById(imageToCount);
     const views = feed.views;
     // const feed = await Feed.findById(id);
     // feed.image = placeholder;
     // const updatedFeed = await Feed.findByIdAndUpdate(feed.id, feed
-    const updateViewFeed = await Feed.findByIdAndUpdate(feed.id, {
+    const updateViewFeed = await Feed.findByIdAndUpdate(imageToCount,{
       views: views + 1
     });
     res.json({

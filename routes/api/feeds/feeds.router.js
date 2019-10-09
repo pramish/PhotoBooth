@@ -24,7 +24,7 @@ router
     feedController.checkDeletionCriteria,
     feedController.updateOneFeed
   )
-  .post(feedController.countViews)
+  
   .delete(
     passport.authenticate('jwt', { session: false }),
     feedController.isRightUser,
@@ -32,7 +32,7 @@ router
     feedController.deleteOneFeed
   );
 
-router.route('/:imageId').post(feedController.countViews);
+router.route('/:hello').post(feedController.countViews);
 
 router.use('/comment', commentRouter);
 router.use('/emoji', emojiRouter);
