@@ -30,7 +30,7 @@ router.post("/register", async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password
-    });
+      });
     //Hashing the user password before saving to the database
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(newUser.password, salt, (err2, hashPassword) => {
@@ -79,13 +79,13 @@ router.post("/login", async (req, res) => {
         expiresIn: 1800 //expires the jwt into half an hour
       });
 
-      res.json({"token": token});
+      res.json({ token: token });
     } else {
       res.status(400).json({ passwordIncorrect: "password does not match" });
     }
   } catch (error) {
     res.status(400).json({
-      "error":error
+      error: error
     });
   }
 });

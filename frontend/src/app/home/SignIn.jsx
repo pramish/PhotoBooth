@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { userService } from "../services/user.service";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import jwt from "jsonwebtoken";
 import SetLoggedInUser from "../helpers/actions/login.action";
-
-
-
+import auth from "../helpers/auth/auth"
 
 const SignIn = ({ profileClicked, history }) => {
   const [sign_in, setSign_inClicked] = useState(true);
   const [sign_up, setSign_upClicked] = useState(false);
   const [errors, setErrors] = useState("");
+  const { isAuthenticated } = useSelector(state => state.auth);
+
   const dispatch = useDispatch();
   const toggle = () => {
     setSign_inClicked(!sign_in);
@@ -49,32 +49,42 @@ const SignIn = ({ profileClicked, history }) => {
     });
   };
 
+  const logout = () =>{
+    auth(false);
+    localStorage.setItem("userToken", null);
+    dispatch(SetLoggedInUser({}));
+  }
+
   // const signUpClick = () => {};
   if (profileClicked) {
-    if (sign_in === false) {
-      return (
-        <div>
-          <input type="text" placeholder="Full Name" id="Full name" />
-          <input type="text" placeholder="Email" id="SignUpEmail" />
-          <input type="password" placeholder="Password" id="SignUpPass" />
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            id="ConfirmPassword"
-          />
-          <button onClick={signUpClick}>Confirm</button>
-          <button onClick={toggle}>SignUp</button>
-        </div>
-      );
-    } else if (sign_in === true) {
-      return (
-        <div>
-          <input type="text" placeholder="Email" id="SignInEmail" />
-          <input type="password" placeholder="Password" id="SignInPass" />
-          <button onClick={signInClick}>Confirm</button>
-          <button onClick={toggle}>SignIn</button>
-        </div>
-      );
+    if (!isAuthenticated) {
+      if (sign_in === false) {
+        return (
+          <div>
+            <input type="text" placeholder="Full Name" id="Full name" />
+            <input type="text" placeholder="Email" id="SignUpEmail" />
+            <input type="password" placeholder="Password" id="SignUpPass" />
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              id="ConfirmPassword"
+            />
+            <button onClick={signUpClick}>Confirm</button>
+            <button onClick={toggle}>SignUp</button>
+          </div>
+        );
+      } else if (sign_in === true) {
+        return (
+          <div>
+            <input type="text" placeholder="Email" id="SignInEmail" />
+            <input type="password" placeholder="Password" id="SignInPass" />
+            <button onClick={signInClick}>Confirm</button>
+            <button onClick={toggle}>SignIn</button>
+          </div>
+        );
+      }
+    } else {
+      return <button onClick={logout}>LogOut</button>;
     }
   } else {
     return <div></div>;

@@ -18,6 +18,9 @@ import AddImageForm from "./components/AddImageForm";
 import EachFeed from "./EachFeed";
 import Categories from "./components/Categories";
 import SignIn from "./SignIn";
+import { useDispatch } from "react-redux";
+import jwt from "jsonwebtoken";
+import SetLoggedInUser from "../helpers/actions/login.action";
 
 const Home = props => {
   const [open, setOpen] = useState(false);
@@ -37,6 +40,12 @@ const Home = props => {
   const handleClose = () => {
     setOpen(false);
   };
+  const dispatch = useDispatch();
+
+  const token = (localStorage.getItem("userToken"));
+  if(token){
+    dispatch(SetLoggedInUser(jwt.decode(token)));
+  }
 
   return (
     <Container>

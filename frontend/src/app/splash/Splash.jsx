@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import spinner from "../../assets/splash.gif";
-import { useDispatch } from "react-redux";
-import jwt from "jsonwebtoken";
-import SetLoggedInUser from "../helpers/actions/login.action";
+
 
 const Splash = ({ history }) => {
   useEffect(() => {
@@ -15,12 +13,7 @@ const Splash = ({ history }) => {
       false
     );
   }, []);
-  const dispatch = useDispatch();
-
-  const token = (localStorage.getItem("userToken"));
-  if(token){
-    dispatch(SetLoggedInUser(jwt.decode(token)));
-  }
+ 
 
   return (
     <Container>
