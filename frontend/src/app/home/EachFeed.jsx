@@ -3,9 +3,15 @@ import styled from "styled-components";
 
 import meme from "../../assets/meme.jpg";
 import boy from "../../assets/default-round.png";
+import laugh from "../../assets/emojis/laugh.png";
+import like from "../../assets/emojis/like.png";
+import sad from "../../assets/emojis/sad.png";
+import smile from "../../assets/emojis/smile.png";
+import love from "../../assets/emojis/love.png";
 
 const EachFeed = () => {
   const [toggleDetails, setToggleDetails] = useState(false);
+  const [reaction, setReaction] = useState(false);
 
   const showDetails = () => {
     setToggleDetails(true);
@@ -15,6 +21,9 @@ const EachFeed = () => {
     setToggleDetails(false);
   };
 
+  const toggleReaction = () => {
+    setReaction(!reaction);
+  };
   return (
     <Container
       onMouseEnter={showDetails}
@@ -25,19 +34,35 @@ const EachFeed = () => {
         <img src={meme} />
       </div>
       <div className="overlay">
-        <DetailsView image={boy} />
+        <DetailsView
+          image={boy}
+          reaction={reaction}
+          toggleReaction={toggleReaction}
+        />
       </div>
     </Container>
   );
 };
 
-const DetailsView = ({ image }) => (
+const DetailsView = ({ image, reaction, toggleReaction }) => (
   <DetailsViewContainer>
     <h3>Let's go Stake!! </h3>
     <div className="author">
       <img src={image} />
       <p>IoanMack</p>
     </div>
+    {reaction ? (
+      <div style={{ backgroundColor: "#ffffff" }}>
+          <img src={laugh} />
+        <img src={smile} />
+        <img src={sad} />
+        <img src={like} />
+        <img src={love} />
+      </div>
+    ) : (
+      <div></div>
+    )}
+    <button onClick={toggleReaction}> React </button>
   </DetailsViewContainer>
 );
 
@@ -66,6 +91,9 @@ const DetailsViewContainer = styled.div`
   img {
     height: 2em;
     width: 2em;
+    &:hover {
+      background: black;
+    }
   }
 `;
 
@@ -89,4 +117,5 @@ const Container = styled.div`
         props.toggle ? "object-fit: contain; margin-top: 1em;" : ""} */
     }
   }
+ 
 `;
