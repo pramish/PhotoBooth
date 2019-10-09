@@ -10,9 +10,6 @@ const feedsSchema = mongoose.Schema(
       ref: "User",
       required: true
     },
-    category: {
-      type: String
-    },
     views: {
       type: Number,
       default: 0

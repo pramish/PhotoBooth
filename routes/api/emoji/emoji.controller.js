@@ -1,6 +1,4 @@
 const Feed = require("../feeds/feeds.model");
-const Emoji = require("../emoji/emoji.model");
-const User = require("../users/users.model");
 const uuid = require("uuid/v4");
 
 const toggleEmoji = async (req, res, next) => {
