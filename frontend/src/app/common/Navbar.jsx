@@ -1,22 +1,29 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import defaultImg from "../../assets/default-round.png";
-import { MdHome, MdSearch, MdFormatListBulleted } from "react-icons/md";
-import SearchBar from "./SearchBar";
+import boy from "../../assets/default-girl.png";
+import SignIn from "../home/SignIn";
+import SetLoggedInUser from "../helpers/actions/login.action";
+import jwt from "jsonwebtoken";
+import RegistrationModal from "./RegistrationModal";
+import { Menu, Segment } from "semantic-ui-react";
+import AddImageModel from "./AddImageModel";
 
-const Navbar = ({ onClickHandler }) => {
-  const [searchClick, setSearchClick] = useState(false);
-  const toggleSearchBar = () => {
-    setSearchClick(!searchClick);
-  };
+const Navbar = props => {
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector(state => state.auth);
 
   return (
     <Container>
-      <h4>Photobooth</h4>
-
-      <div>
-        <img src={defaultImg} onClick={onClickHandler} />
-      </div>
+      <Segment inverted>
+        <Menu inverted secondary>
+          <Menu.Item name="Photobooth" />
+          <Menu.Item position="right">
+            {isAuthenticated ? <AddImageModel /> : ""}
+            <RegistrationModal />
+          </Menu.Item>
+        </Menu>
+      </Segment>
     </Container>
   );
 };
@@ -24,42 +31,17 @@ const Navbar = ({ onClickHandler }) => {
 export default Navbar;
 
 const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
-  margin: 1rem;
-  div:nth-child(2) {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    /* width: 10%; */
-  }
-  img {
-    height: 2rem;
-    width: 2rem;
-  }
-  h4 {
-    margin: 0;
-    font-size: 1.4rem;
-    text-decoration: none;
-    font-style: normal;
-    color: white;
-  }
-  button {
-    background-color: #177e89;
-    color: #fff;
-  }
-  .navbtns {
-    display: flex;
-    justify-content: space-between;
-    align-self: center;
-    svg {
-      margin-right: 1rem;
-      margin-left: 1rem;
-      cursor: pointer;
+  margin-bottom: 1rem;
+  position: fixed;
+  max-width: 100vw;
+  min-width: 100vw;
+  width: 100%;
+  top: 0;
+  .ui {
+    &.inverted {
+      &.menu {
+        border-radius: 0px !important;
+      }
     }
-  }
-  .searchbar {
   }
 `;

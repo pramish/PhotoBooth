@@ -66,6 +66,7 @@ const AddImageForm = () => {
             Create a Feed
           </Button>
         </form>
+      
       </Wrapper>
     </Card>
   );

@@ -1,31 +1,21 @@
 import React, { useState, useEffect } from "react";
-import {
-  MdHome,
-  MdSearch,
-  MdFormatListBulleted,
-  MdChevronRight,
-  MdTrendingUp,
-  MdAdd
-} from "react-icons/md";
-import { DiCodeigniter } from "react-icons/di";
-
-import { Fab } from "@material-ui/core";
-
-import defaultImg from "../../assets/default-girl.png";
-
-import EachFeed from "./EachFeed";
-import Categories from "./components/Categories";
-import SignIn from "./SignIn";
 import { useDispatch } from "react-redux";
 import jwt from "jsonwebtoken";
-import SetLoggedInUser from "../helpers/actions/login.action";
+
+import EachFeed from "./EachFeed";
+
 import axios from "axios";
 import { HomeContainer } from "./styles";
 import { CustomModel } from "./components/CustomModel";
+import Navbar from "../common/Navbar";
+import SetLoggedInUser from "../helpers/actions/login.action";
+import { Grid, Loader } from "semantic-ui-react";
 
 const Home = props => {
   const [open, setOpen] = useState(false);
-  const [profileClicked, setProfileClicked] = useState(false);
+  const dispatch = useDispatch();
+  const [uploading, setUploading] = useState(true);
+
   const [feeds, setFeeds] = useState([]);
 
   useEffect(() => {
@@ -34,15 +24,16 @@ const Home = props => {
       .then(res => {
         console.log(res);
         setFeeds(res.data);
+        setUploading(false);
       })
       .catch(err => {
         console.log(err);
       });
-  });
-
-  const toggleSignIn = () => {
-    setProfileClicked(!profileClicked);
-  };
+    const token = localStorage.getItem("userToken");
+    if (token) {
+      dispatch(SetLoggedInUser(jwt.decode(token)));
+    }
+  }, []);
 
   const handleAddClick = () => {
     handleOpen();
@@ -54,76 +45,24 @@ const Home = props => {
   const handleClose = () => {
     setOpen(false);
   };
-  const dispatch = useDispatch();
-
-  const token = localStorage.getItem("userToken");
-  if (token) {
-    dispatch(SetLoggedInUser(jwt.decode(token)));
-  }
 
   return (
     <HomeContainer>
-      <div className="title">
-        <h4>Photobooth</h4>
-      </div>
-      <div className="navbtns">
-        <div>
-          <MdHome color="white" size="2rem" />
-
-          <MdSearch color="white" size="2rem" onClick={handleClose} />
-
-          <MdFormatListBulleted color="white" size="2rem" />
-        </div>
-      </div>
-      <div className="profile">
-        <div>
-          <img src={defaultImg} onClick={toggleSignIn} />
-          <SignIn profileClicked={profileClicked} history={props.history} />
-        </div>
-      </div>
-      <div className="side-categories">
-        <div className="top-trendings">
-          <div className="trendings">
-            <MdTrendingUp /> Trending <MdChevronRight />
-          </div>
-          <div className="top-artist">
-            <DiCodeigniter />
-            Top Artists <MdChevronRight />
-          </div>
-        </div>
-        <div className="categories">
-          <Categories />
-        </div>
-        <div>Photobooth @2019 </div>
-      </div>
+      <Navbar history={props.history} />
       <div className="main-feeds">
-        <CustomModel open={open} handleClose={handleClose} />
-        {feeds.map(feed => (
-          <EachFeed feedImg={feed.image} />
-        ))}
-      </div>
-      <div className="side-artist">
-        <div>
-          <img src={defaultImg} />
-        </div>
-        <div>
-          <img src={defaultImg} />
-        </div>
-        <div>
-          <img src={defaultImg} />
-        </div>
-        <div>
-          <img src={defaultImg} />
-        </div>
-        <div>
-          <div className="fab">
-            <Fab color="primary" aria-label="add" onClick={handleAddClick}>
-              <MdAdd size="1.5rem" />
-            </Fab>
-          </div>
-        </div>
+        {uploading ? (
+          <Loader active inline="centered" />
+        ) : (
+          getFeeds(feeds, props)
+        )}
       </div>
     </HomeContainer>
   );
 };
+
+const getFeeds = (feeds, props) =>
+  feeds.map(feed => (
+    <EachFeed history={props.history} key={feed._id} feed={feed} />
+  ));
+
 export default Home;
