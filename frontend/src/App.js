@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 import PhotoBoothRouter from "./router";
 import ReduxStore from "./redux/store";
 
+// Main App component which represents the whole application
 const App = () => {
   return (
     <React.Fragment>

@@ -1,38 +1,50 @@
 import React, { useState } from "react";
-import { Button, Header, Modal, Form } from "semantic-ui-react";
-import { useSelector, useDispatch } from "react-redux";
 import jwt from "jsonwebtoken";
-import { userService, signOut } from "../services/user.service";
-import SetLoggedInUser from "../helpers/actions/login.action";
-import auth from "../helpers/auth/auth";
+import { useSelector, useDispatch } from "react-redux";
+import { userService } from "../../services/user.service";
+import SetLoggedInUser from "../../helpers/actions/login.action";
+import auth from "../../helpers/auth/auth";
+import PropTypes from "prop-types";
+import { Form, Button, Header } from "semantic-ui-react";
 
-const SignIn = ({ signUpBtnClick }) => {
+/**
+ * This component is responsbile for Poping up Sign in and Sign Up Model
+ * Also this is the core component that handles authentication for the user.
+ */
+const Auth = ({ signUpBtnClick }) => {
+  // Boolean flag state for signin button toggle
   const [sign_in, setSign_inClicked] = useState(true);
+  // Boolean flag state for signup button toggle
   const [sign_up, setSign_upClicked] = useState(false);
+  // Errors state for storing errors of this components
   const [errors, setErrors] = useState([]);
+  // isAuthenticated state from global state
   const { isAuthenticated } = useSelector(state => state.auth);
 
+  // dispatch hook from react-redux for dispatching actions
   const dispatch = useDispatch();
 
+  // Handle toggle of sign in and sign up click
   const toggle = () => {
     setSign_inClicked(!sign_in);
     setSign_upClicked(!sign_up);
   };
 
+  // Handle Sign in Click
   const signInClick = () => {
+    // gets email and password from the form
     const email = document.getElementById("SignInEmail").value;
     const password = document.getElementById("SignInPass").value;
-
     const user = {
       email: email,
       password: password
     };
 
+    // Login using the user object
     userService
       .login(user)
       .then(res => {
-        //   history.push("/");
-        console.log(user);
+        // dispatch logged user from the local storage
         dispatch(
           SetLoggedInUser(jwt.decode(localStorage.getItem("userToken")))
         );
@@ -40,34 +52,37 @@ const SignIn = ({ signUpBtnClick }) => {
       .catch(err => setErrors(err.response.data));
   };
 
+  // Handle Sign up toggle
   const signUpClick = () => {
+    //   Gets name, email, password and password confirm form form
     const name = document.getElementById("Full name").value;
     const email = document.getElementById("SignUpEmail").value;
     const password = document.getElementById("SignUpPass").value;
     const confirmPassword = document.getElementById("ConfirmPassword").value;
-
     const user = {
       name: name,
       email: email,
       password: password,
       password2: confirmPassword
     };
+    // Registers the user
     userService
       .signup(user)
-      .then(res => {
-        //   history.push("/");
-      })
+      .then(res => {})
       .catch(err => setErrors(err.response.data));
   };
 
+  // Logs out the user
   const logout = () => {
+    //   Set the auth
     auth(false);
     localStorage.setItem("userToken", null);
     dispatch(SetLoggedInUser({}));
   };
 
-  // const signUpClick = () => {};
+  //   If the sign up btn is clicked show sign up form
   if (signUpBtnClick) {
+    //   If the user is authenticated
     if (!isAuthenticated) {
       if (sign_in === false) {
         return (
@@ -140,39 +155,9 @@ const SignIn = ({ signUpBtnClick }) => {
     return <div></div>;
   }
 };
-// TODO
-//  isAuth : <img className="ui avatar image" src={boy} /> and Sign Up
-const RegistrationModal = () => {
-  const [signUpClick, setSignUpClick] = useState();
-  const dispatch = useDispatch();
-  const logout = () => {
-    auth(false);
-    localStorage.setItem("userToken", null);
-    dispatch(SetLoggedInUser({}));
-  };
 
-  const { isAuthenticated } = useSelector(state => state.auth);
-
-  return isAuthenticated ? (
-    <Button primary onClick={logout}>
-      Logout
-    </Button>
-  ) : (
-    <Modal
-      trigger={
-        <Button primary onClick={() => setSignUpClick(true)}>
-          Sign Up
-        </Button>
-      }
-    >
-      <Modal.Header>Be a Photobooth Memeber</Modal.Header>
-      <Modal.Content>
-        <Modal.Description>
-          <SignIn signUpBtnClick={signUpClick} />
-        </Modal.Description>
-      </Modal.Content>
-    </Modal>
-  );
+Auth.propTypes = {
+  signUpBtnClick: PropTypes.func
 };
 
-export default RegistrationModal;
+export default Auth;

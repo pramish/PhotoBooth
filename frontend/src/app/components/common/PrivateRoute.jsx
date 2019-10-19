@@ -1,9 +1,12 @@
-// This private route component is inspired from Brad Traversy youtube course https://www.youtube.com/watch?v=PBTYxXADG_k&list=PLillGF-RfqbbiTGgA77tGO426V3hRF9iE
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
+/**
+ * This private route component is inspired from Brad Traversy youtube course
+ * Link to the tutorial: https://www.youtube.com/watch?v=PBTYxXADG_k&list=PLillGF-RfqbbiTGgA77tGO426V3hRF9iE
+ */
 const PrivateRoute = ({
   component: Component,
   auth,
@@ -21,6 +24,7 @@ const PrivateRoute = ({
   />
 );
 
+// Gets auth state from global state
 const mapStateToProps = state => ({
   auth: state.auth
 });
@@ -28,4 +32,5 @@ const mapStateToProps = state => ({
 PrivateRoute.propTypes = {
   auth: PropTypes.object.isRequired
 };
+
 export default connect(mapStateToProps)(PrivateRoute);
