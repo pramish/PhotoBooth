@@ -82,7 +82,7 @@ const Home = props => {
         {uploading ? (
           <Loader active inline="centered" />
         ) : (
-          getFeeds(feeds, props)
+          getFeeds(feeds={feeds}, props={props})
         )}
       </div>
     </HomeContainer>
