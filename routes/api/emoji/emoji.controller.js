@@ -1,6 +1,8 @@
 const Feed = require("../feeds/feeds.model");
 const uuid = require("uuid/v4");
 
+// This process of adding new emoji  is inspired from Brad Traversy
+// youtube playlist link: https://www.youtube.com/watch?v=PBTYxXADG_k&list=PLillGF-RfqbbiTGgA77tGO426V3hRF9iE
 const toggleEmoji = async (req, res, next) => {
   try {
     // Get the feed by the param id

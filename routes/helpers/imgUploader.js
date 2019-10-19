@@ -1,4 +1,4 @@
-const cloudinary = require('cloudinary').v2; //importing the cloudinary libarary
+const cloudinary = require("cloudinary").v2; //importing the cloudinary libarary
 
 /**
  * @description : Func that will upload image into cloudinary
@@ -11,5 +11,3 @@ const imgUploader = async imgTobeUploaded => {
 };
 
 module.exports = imgUploader;
-
-//this is declared here so that we can use it in another file

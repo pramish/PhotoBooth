@@ -1,12 +1,14 @@
-const User = require('../routes/api/users/users.model');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const registerValidation = require('../utils/validation/register.validation');
-const loginValidation = require('../utils/validation/login.validation');
+const User = require("../routes/api/users/users.model");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const registerValidation = require("../utils/validation/register.validation");
+const loginValidation = require("../utils/validation/login.validation");
 
-//@routes POST /register
-//@desc Register user
-//@access Public
+/**
+ * @route  POST /register
+ * @description Function responsible for creating  new user
+ * @access public
+ */
 const createUser = async (req, res, next) => {
   try {
     const { errors, isValid } = registerValidation(req.body);
@@ -17,7 +19,7 @@ const createUser = async (req, res, next) => {
     //Checking up the user before registering to the database
     const user = await User.findOne({ email: req.body.email });
     if (user) {
-      return res.status(400).json({ email: 'User is already registered!!' });
+      return res.status(400).json({ email: "User is already registered!!" });
     }
     //Getting all the users credentials
     const newUser = new User({
@@ -43,9 +45,11 @@ const createUser = async (req, res, next) => {
   }
 };
 
-// @routes POST /login
-// @desc Login user and return JWT token and the logged user
-// @access Public
+/**
+ * @route  POST /login
+ * @description Function responsible for authenticating the user
+ * @access public
+ */
 const authenticateUser = async (req, res, next) => {
   try {
     const { errors, isValid } = loginValidation(req.body);
@@ -55,7 +59,7 @@ const authenticateUser = async (req, res, next) => {
 
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      return res.status(404).json({ emailNotFound: 'Email not registered' });
+      return res.status(404).json({ emailNotFound: "Email not registered" });
     }
     // IF the user is found and comparing the hashed password with it.
     const isMatch = await bcrypt.compare(req.body.password, user.password);
@@ -71,17 +75,12 @@ const authenticateUser = async (req, res, next) => {
       console.log(jwtPayload);
 
       // Verify the token
-      var token = jwt.sign(jwtPayload, 'secretOrKey', {
+      var token = jwt.sign(jwtPayload, "secretOrKey", {
         expiresIn: 1800 //expires the jwt into half an hour
       });
-
-    //   res.json({
-    //     email: newUser.email,
-    //     name: newUser.name
-    //   });
       res.json({ token: token, email: user.email, name: user.name }); //Passing the token and the user to the front end
     } else {
-      res.status(400).json({ passwordIncorrect: 'Password does not match' });
+      res.status(400).json({ passwordIncorrect: "Password does not match" });
     }
   } catch (error) {
     res.status(400).json({

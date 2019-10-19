@@ -1,3 +1,14 @@
+/**
+ We created this file so
+ that we do not have to re write thr code every time when we perform CRUD.
+  Instead, import the required function and use that function
+  Insipred from  Frontend Masters Link : https://frontendmasters.com/learn/node-js/
+ */
+
+/**
+ * @description Creates New entry in database
+ * @param {object} Model The model to perform action
+ */
 const createOne = Model => async (req, res, next) => {
   //creating the model upon requested
   try {
@@ -8,6 +19,10 @@ const createOne = Model => async (req, res, next) => {
   }
 };
 
+/**
+ * @description Updates a entry in database
+ * @param {object} Model The model to perform action
+ */
 const updateOne = Model => async (req, res, next) => {
   //updating the model upon requested
   const toUpdate = req.body;
@@ -20,6 +35,10 @@ const updateOne = Model => async (req, res, next) => {
   }
 };
 
+/**
+ * @description Deletes a entry in database
+ * @param {object} Model The model to perform action
+ */
 const deleteOne = Model => async (req, res, next) => {
   //deleting the model upon requested
   let id = req.params.id;
@@ -31,6 +50,10 @@ const deleteOne = Model => async (req, res, next) => {
   }
 };
 
+/**
+ * @description Returns a entry in database
+ * @param {object} Model The model to perform action
+ */
 const getOne = Model => async (req, res, next) => {
   //retrieving the model upon requested
   const id = req.params.id;
@@ -42,6 +65,10 @@ const getOne = Model => async (req, res, next) => {
   }
 };
 
+/**
+ * @description Returns all entries in database
+ * @param {object} Model The model to perform action
+ */
 const getAll = Model => async (req, res, next) => {
   //retrieving all the model upon requested
   try {
@@ -51,12 +78,6 @@ const getAll = Model => async (req, res, next) => {
     next(error);
   }
 };
-
-/**
- We created this file so 
- that we do not have to re write thr code every time when we perform CRUD.
-  Instead, import the required function and use that function
- */
 
 module.exports = {
   createOne,

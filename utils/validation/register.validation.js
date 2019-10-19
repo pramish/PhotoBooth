@@ -1,6 +1,11 @@
 const validator = require("validator");
 const isEmpty = require("is-empty");
 
+/**
+ * @description Responsible for validating register form
+ * @param {object} data This object contains keys and values that is to
+ * be validated
+ */
 module.exports = function validateRegisterInput(data) {
   let errors = {};
 

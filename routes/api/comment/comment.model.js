@@ -1,10 +1,11 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+
+//defining the comments model as image, user, emoji, replies and feeds
 const commentSchema = mongoose.Schema(
-  //defining the comments model as image, user, emoji, replies and feeds
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true
     },
     image: {
@@ -14,22 +15,22 @@ const commentSchema = mongoose.Schema(
     emoji: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Emoji'
+        ref: "Emoji"
       }
     ],
     replies: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Comment'
+        ref: "Comment"
       }
     ],
     feed: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Feed',
+      ref: "Feed",
       required: true
     }
   },
   { timestamps: true }
 );
 
-module.exports = Comment = mongoose.model('Comment', commentSchema);
+module.exports = Comment = mongoose.model("Comment", commentSchema);
