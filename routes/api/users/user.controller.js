@@ -1,8 +1,5 @@
 const User = require('./users.model');
-// const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
 const updateValidation = require('../../../utils/validation/update.validation');
-// const loginValidation = require("../../../utils/validation/login.validation");
 
 //@routes POST api/users/deleteUsers
 //@desc Delete one user by email
@@ -55,6 +52,7 @@ const updateUser = async (req, res, next) => {
 };
 
 const getOneUser = async (req, res, next) => {
+  //getting the uses based on email
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {

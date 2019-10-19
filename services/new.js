@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const Feed = require('../routes/api/feeds/feeds.model');
+const Feed = require('../routes/api/feeds/feeds.model'); //getting the feeds model
 
 const newFeed = async (req, res, next) => {
   try {

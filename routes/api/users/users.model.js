@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs'); //requiring the bcrypt to hash the password
 const userSchema = mongoose.Schema({
+  //defining the user model as name, email and password
   name: {
     type: String,
     required: true
