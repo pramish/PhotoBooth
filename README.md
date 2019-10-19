@@ -3,6 +3,11 @@
 An application to communicate in an online community using images only rather than texts (No Adult Content).
 This application was developed using the MERN Stack: MongoDB, Express, React and NodeJs. Furthermore Cloudainary was used to store and compress the images that were uploaded in the application.
 
+### Contributors 
+- Sharad Ghimire 12696403
+- Rohit Gurung 12695856
+- Pramish Luitel 124342229
+
 # Screenshots:
 
 ![1](./utils/referncePictures/1.png)
