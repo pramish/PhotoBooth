@@ -1,7 +1,8 @@
 const router = require('express').Router();
-const Feed = require('../routes/api/feeds/feeds.model');
+const Feed = require('../routes/api/feeds/feeds.model'); //getting the feeds model
 
 const searchFeed = async (req, res, next) => {
+  //search feed api
   try {
     const query = req.query.search;
     console.log(query);

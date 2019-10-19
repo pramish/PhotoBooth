@@ -20,11 +20,12 @@ module.exports = function loginValidation(data) {
   if (validator.isEmpty(data.password)) {
     errors.password = 'Password Field cannot be empty';
   }
-
+  //validate the length of the password
   if (!validator.isLength(data.password, { min: 6, max: 16 })) {
     errors.password = 'Passwords must be in the range of 6 to 16 characters';
   }
 
+  //returning the errors and the validation checker
   return {
     errors,
     isValid: isEmpty(errors)
