@@ -68,7 +68,14 @@ const EachFeed = ({ feed, history }) => {
             recGiven={recGiven}
           />
         </span>
-        <i className="comment icon"></i>3 comments
+        <div onClick={() => history.push(`/feed/${feed._id}`)}>
+          <i className="comment icon"></i>
+          {feed.comments.length} response
+        </div>
+        <div onClick={() => history.push(`/feed/${feed._id}`)}>
+          <i className="smile icon"></i>
+          {feed.emoji.length} reactions
+        </div>
       </div>
     </Container>
   );
@@ -116,7 +123,7 @@ const DetailsView = ({
     ) : (
       <div></div>
     )}
-
+    <div></div>
     {recGiven ? (
       <div>
         <img
@@ -126,7 +133,9 @@ const DetailsView = ({
         />
       </div>
     ) : (
-      <button onClick={toggleReaction}> React </button>
+      <button onClick={toggleReaction} className="ui teal basic button">
+        <i className="thumbs up outline"></i> React
+      </button>
     )}
   </div>
 );

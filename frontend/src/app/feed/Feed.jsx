@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Navbar from "../common/Navbar";
+
 import {
   Card,
   Image,
@@ -16,6 +16,10 @@ import {
   Message
 } from "semantic-ui-react";
 import Axios from "axios";
+// import { useHistory } from "react-router-dom";
+
+import Navbar from "../common/Navbar";
+import CommentAndReplies from "./Comment";
 
 const Feed = props => {
   const [fetching, setFetching] = useState(true);
@@ -26,6 +30,8 @@ const Feed = props => {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [comments, setComments] = useState([]);
+
+  // let history = useHistory();
 
   const postHandler = async () => {
     let formData = new FormData();
@@ -58,7 +64,7 @@ const Feed = props => {
   };
 
   useEffect(() => {
-      Axios.get(`http://localhost:5000/feeds/${id}`).then(res => {
+    Axios.get(`http://localhost:5000/feeds/${id}`).then(res => {
       setFeed(res.data);
       if (res.data.comments.length > 0) {
         setComments(res.data.comments);
@@ -78,7 +84,7 @@ const Feed = props => {
           left: "0.5rem",
           zIndex: "1"
         }}
-        onClick={() => props.history.push("/home")}
+        onClick={() => props.history.goBack()}
       >
         <Button>
           <i className="icon arrow alternate circle left outline"></i>
@@ -93,7 +99,10 @@ const Feed = props => {
             <Grid.Row columns={2}>
               <Grid.Column>
                 <div className="left-img">
-                  <Image src={feed.image} wrapped ui={false} />
+                  <img
+                    src={feed.image}
+                    style={{ height: "40em", width: "auto" }}
+                  />
                 </div>
               </Grid.Column>
               <Grid.Column>
@@ -102,27 +111,11 @@ const Feed = props => {
                     <Header as="h3" dividing>
                       Comments
                     </Header>
-                    {/* TODO:Comments here */}
                     {comments.map(comment => (
-                      <Comment>
-                        <Comment.Content>
-                          <Comment.Author as="a">
-                            Author Name Here
-                          </Comment.Author>
-                          <Comment.Metadata>
-                            <div>{comment.createdAt}</div>
-                          </Comment.Metadata>
-                          <img
-                            src={comment.image}
-                            style={{ height: "16rem", width: "auto" }}
-                          />
-                          {/* <Comment.Actions>
-                            <Comment.Action>Reply</Comment.Action>
-                          </Comment.Actions> */}
-                        </Comment.Content>
-                      </Comment>
+                      <div>
+                        <CommentAndReplies comment={comment} />
+                      </div>
                     ))}
-
                     <Form reply>
                       <input
                         style={{ display: "none" }}
@@ -152,11 +145,13 @@ const Feed = props => {
                         </>
                       ) : (
                         <>
-                          <Button
+                          <button
                             onClick={chooseBtnClickHandler}
-                            content="Choose Image"
-                            labelPosition="left"
-                          />
+                            className="ui button active"
+                          >
+                            <i class="upload icon"></i> Choose A Image
+                          </button>
+                          <br />
                           <br />
                           <Button
                             onClick={postHandler}

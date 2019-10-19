@@ -36,9 +36,9 @@ app.use(bodyParser.json());
 
 app.use(passport.initialize());
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/frontend/build/index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname + "/frontend/build/index.html"));
+// });
 app.use("/", router);
 
 // Assume 404 since no routes and middlewares responded
