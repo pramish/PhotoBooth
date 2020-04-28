@@ -1,19 +1,19 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const passport = require("passport");
-const cors = require("cors");
-const fileupload = require("express-fileupload");
-const path = require("path");
+const express = require('express');
+const bodyParser = require('body-parser');
+const passport = require('passport');
+const cors = require('cors');
+const fileupload = require('express-fileupload');
+const path = require('path');
 
 //configuring the env for the application
-require("dotenv").config();
+require('dotenv').config();
 
 // Connect function helps to connect to the mongoDB
-const connect = require("./config/db");
-const router = require("./routes");
+const connect = require('./config/db');
+const router = require('./routes');
 
-require("./services/cloudinary");
-require("./config/passport")(passport);
+require('./services/cloudinary');
+require('./config/passport')(passport);
 
 const app = express();
 
@@ -24,7 +24,7 @@ app.use(cors());
 // Using bodyparser middleware
 app.use(
   bodyParser.urlencoded({
-    extended: false
+    extended: false,
   })
 );
 app.use(bodyParser.json());
@@ -33,18 +33,24 @@ app.use(bodyParser.json());
 app.use(
   fileupload({
     useTempFiles: true,
-    tempFileDir: "/tmp/"
+    tempFileDir: '/tmp/',
   })
 );
 
 app.use(passport.initialize());
 
-app.use("/", router);
+app.use('/', router);
 
 // Assume 404 since no routes and middlewares responded
 app.use((req, res, next) => {
-  console.log("error (404)");
+  console.log('error (404)');
   res.json({ Error: 404 });
 });
 
+if (process.env.NODE_ENV === 'Production') {
+  app.use(express.static('frontend/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+  });
+}
 module.exports = app;
