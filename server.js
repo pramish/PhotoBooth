@@ -47,7 +47,7 @@ app.use((req, res, next) => {
   res.json({ Error: 404 });
 });
 
-if (process.env.NODE_ENV === 'Production') {
+if (process.env.NODE_ENV === 'development') {
   app.use(express.static('frontend/build'));
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
