@@ -8,10 +8,8 @@
     "start": "node index.js",
     "server": "nodemon index.js",
     "client": "npm start --prefix frontend",
-    "dev": "concurrently \"npm run frontend \" \"npm run server\"",
-    "test:unit": "./node_modules/.bin/mocha test/unit/**/*.js --timeout 10000 --exit",
-    "test:functional": "./node_modules/.bin/nightwatch",
-    "test": "echo \"No test\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": ""
   },
   "keywords": [],
   "author": "",
@@ -26,7 +24,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
-    "express-fileupload": "^1.1.6-alpha.5",
+    "express-fileupload": "^1.1.6",
     "http-proxy-middleware": "^0.20.0",
     "image-size": "^0.8.2",
     "is-empty": "^1.2.0",
