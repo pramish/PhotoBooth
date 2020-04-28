@@ -60,7 +60,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "chai": "^4.2.0",
     "chromedriver": "^77.0.0",
-    "mocha": "^6.2.0",
+    "mocha": "^7.1.2",
     "nightwatch": "^1.2.4",
     "nodemon": "^1.19.2"
   }
