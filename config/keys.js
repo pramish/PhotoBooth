@@ -1,3 +1,3 @@
 module.exports = {
-  secretOrKey: 'secret' //secret for passport authentication
+  secretOrKey: process.env.SECRET, //secret for passport authentication
 };

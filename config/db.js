@@ -5,18 +5,18 @@ require('dotenv').config();
 const connect = () => {
   //connecting to the mongoose
   mongoose
-    .connect(process.env.MONGOURI, {
+    .connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,
-      useFindAndModify: false
+      useFindAndModify: false,
     })
     .then(() => {
       console.log(
         `Connected to MONGODB and Node ENV = ${process.env.NODE_ENV}`
       );
     })
-    .catch(e => {
+    .catch((e) => {
       console.log(e);
     });
 };
